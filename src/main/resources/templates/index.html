@@ -3,9 +3,9 @@
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <div th:insert="header :: header"></div>
 </head>
 <body>
+<div th:insert="fragments/header :: header"></div>
 <form method="post">
     <div class="d-flex flex-column">
         <div class="input-group input-group-sm mb-3 d-flex justify-content-center">
@@ -28,14 +28,30 @@
         </div>
     </div>
 
-    <div>User List</div>
-    <div th:each="user: ${users}">
-        <div>
-            <b th:text="${user.id}"></b>
-            <span th:text="${user.name}"></span>
-            <span th:text="${user.login}"></span>
-            <span th:text="${user.password}"></span>
-        </div>
+    <div class="fs-3 text-center"> Users</div>
+    <div class=" mt-4 d-flex justify-content-center align-items-center">
+        <table class="table table-hover" style="width:50%">
+            <thead class="table-light">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Login</th>
+                <th scope="col">Password</th>
+            </tr>
+            </thead>
+            <div th:each="user: ${users}">
+                <div>
+                    <tbody>
+                    <tr>
+                        <th><b th:text="${user.id}"></b></th>
+                        <th><span th:text="${user.name}"></span></th>
+                        <th><span th:text="${user.login}"></span></th>
+                        <th><span th:text="${user.password}"></span></th>
+                    </tr>
+                    </tbody>
+                </div>
+            </div>
+        </table>
     </div>
 </form>
 </body>
