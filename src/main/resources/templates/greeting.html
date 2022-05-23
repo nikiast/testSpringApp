@@ -5,6 +5,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<p th:text="'Hello, ' + ${name} + '!'" />
+<div>User List</div>
+<div th:each="user: ${users}">
+    <div>
+        <b th:text="${user.id}"></b>
+        <span th:text="${user.name}"></span>
+        <span th:text="${user.login}"></span>
+        <span th:text="${user.password}"></span>
+    </div>
+</div>
 </body>
 </html>
