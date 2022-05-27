@@ -27,9 +27,13 @@ public class GreetingController {
                         @RequestParam(name="name") String name, Model model){
         User user = new User(name, login, password);
         userRepo.save(user);
+        return "index";
+    }
 
+    @GetMapping("/main")
+    public String main(Model model){
         Iterable<User> userList = userRepo.findAll();
         model.addAttribute("users", userList);
-        return "index";
+        return "main";
     }
 }

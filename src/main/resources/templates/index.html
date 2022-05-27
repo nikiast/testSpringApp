@@ -1,58 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Getting Started: Serving Web Content</title>
+    <title>index page</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <div th:insert="fragments/header :: header"></div>
 </head>
 <body>
-<div th:insert="fragments/header :: header"></div>
-<form method="post">
-    <div class="d-flex flex-column">
-        <div class="input-group input-group-sm mb-3 d-flex justify-content-center">
-            <span class="input-group-text" id="inputGroup-sizing-sm">name</span>
-            <input name="name" type="text" class="form-control" style='min-width: 20%; max-width: 70%'
-                   aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-        </div>
-        <div class="input-group input-group-sm mb-3 d-flex justify-content-center">
-            <span class="input-group-text" id="inputGroup-sizing-sm">Login</span>
-            <input name="login" type="text" class="form-control" style='min-width: 20%; max-width: 70%'
-                   aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-        </div>
-        <div class="input-group input-group-sm mb-3 d-flex justify-content-center">
-            <span class="input-group-text" id="inputGroup-sizing-sm">Password</span>
-            <input name="password" type="password" class="form-control"
-                   style='min-width: 20%; max-width: 70%'>
-        </div>
-        <div class="text-center">
-            <button type="submit" class="btn btn-outline-success" style="width: 10%">Save</button>
-        </div>
-    </div>
 
-    <div class="fs-3 text-center"> Users</div>
-    <div class=" mt-4 d-flex justify-content-center align-items-center">
-        <table class="table table-hover" style="width:50%">
-            <thead class="table-light">
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Name</th>
-                <th scope="col">Login</th>
-                <th scope="col">Password</th>
-            </tr>
-            </thead>
-            <div th:each="user: ${users}">
-                <div>
-                    <tbody>
-                    <tr>
-                        <th><b th:text="${user.id}"></b></th>
-                        <th><span th:text="${user.name}"></span></th>
-                        <th><span th:text="${user.login}"></span></th>
-                        <th><span th:text="${user.password}"></span></th>
-                    </tr>
-                    </tbody>
-                </div>
-            </div>
-        </table>
-    </div>
-</form>
 </body>
 </html>

@@ -1,10 +1,9 @@
 package inc.ast.test.entitys;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class User implements Serializable {
@@ -14,6 +13,12 @@ public class User implements Serializable {
     private String name;
     private String login;
     private String password;
+    private boolean active;
+
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
 
     public User() {
     }
@@ -22,6 +27,13 @@ public class User implements Serializable {
         this.name = name;
         this.login = login;
         this.password = password;
+    }
+
+    public User(String name, String login, String password, boolean active) {
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.active = active;
     }
 
     public Long getId() {
@@ -56,13 +68,35 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return isActive() == user.isActive() && Objects.equals(getId(), user.getId()) && Objects.equals(getName(), user.getName()) && Objects.equals(getLogin(), user.getLogin()) && Objects.equals(getPassword(), user.getPassword());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getLogin(), getPassword(), isActive());
+    }
 
     @Override
     public String toString() {
-        return "User" +
-                " id = " + id +
-                ", name = " + name +
-                ", login = " + login +
-                ", password = " + password;
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", active=" + active +
+                '}';
     }
 }
