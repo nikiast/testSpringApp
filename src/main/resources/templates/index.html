@@ -6,28 +6,6 @@
     <div th:insert="fragments/header :: header"></div>
 </head>
 <body>
-<form th:action="@{/}" method="post">
-    <div class="d-flex flex-column">
-        <div class="input-group input-group-sm mb-3 d-flex justify-content-center">
-            <span class="input-group-text" id="inputGroup-sizing-sm">Name</span>
-            <input name="name" type="text" class="form-control" style='min-width: 20%; max-width: 70%'
-                   aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-        </div>
-        <div class="input-group input-group-sm mb-3 d-flex justify-content-center">
-            <span class="input-group-text" id="inputGroup-sizing-sm">Price</span>
-            <input name="price" type="text" class="form-control" style='min-width: 20%; max-width: 70%'
-                   aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-        </div>
-        <div class="input-group input-group-sm mb-3 d-flex justify-content-center">
-            <span class="input-group-text" id="inputGroup-sizing-sm">description</span>
-            <input name="description" type="text" class="form-control"
-                   style='min-width: 20%; max-width: 70%'>
-        </div>
-        <div class="text-center">
-            <button type="submit" class="btn btn-outline-success" style="width: 10%">Save</button>
-        </div>
-    </div>
-</form>
 <div class="fs-3 text-center">Products</div>
 <div class=" mt-4 d-flex justify-content-center align-items-center">
     <table class="table table-hover" style="width:50%">

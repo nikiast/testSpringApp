@@ -14,10 +14,10 @@ public class Product implements Serializable {
     private String price;
     private String description;
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @ElementCollection(targetClass = TypeOfProduct.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "product_role", joinColumns = @JoinColumn(name = "product_id"))
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+    private Set<TypeOfProduct> typeOfProducts;
 
     public Product() {
     }
@@ -65,12 +65,12 @@ public class Product implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(getId(), product.getId()) && Objects.equals(getName(), product.getName()) && Objects.equals(getPrice(), product.getPrice()) && Objects.equals(getDescription(), product.getDescription()) && Objects.equals(roles, product.roles);
+        return Objects.equals(getId(), product.getId()) && Objects.equals(getName(), product.getName()) && Objects.equals(getPrice(), product.getPrice()) && Objects.equals(getDescription(), product.getDescription()) && Objects.equals(typeOfProducts, product.typeOfProducts);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getPrice(), getDescription(), roles);
+        return Objects.hash(getId(), getName(), getPrice(), getDescription(), typeOfProducts);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class Product implements Serializable {
                 ", name='" + name + '\'' +
                 ", price='" + price + '\'' +
                 ", description='" + description + '\'' +
-                ", roles=" + roles +
+                ", roles=" + typeOfProducts +
                 '}';
     }
 }

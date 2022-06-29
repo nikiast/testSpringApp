@@ -2,33 +2,32 @@ package inc.ast.test.controllers;
 
 import inc.ast.test.entitys.Product;
 import inc.ast.test.repos.ProductRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class GreetingController {
-    private ProductRepo productRepo;
+@RequestMapping("/product")
+public class ProductController {
+    ProductRepo productRepo;
 
-    public GreetingController(ProductRepo productRepo) {
+    public ProductController(ProductRepo productRepo) {
         this.productRepo = productRepo;
     }
 
-    @GetMapping
-    public String index(Model model) {
-        Iterable<Product> productList = productRepo.findAll();
-        model.addAttribute("products", productList);
-        return "index";
+    @GetMapping("/add")
+    public String add(){
+        return "addProduct";
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public String add(@RequestParam(name="name") String name, @RequestParam(name="price") String price,
-                        @RequestParam(name="description") String description, Model model){
+                      @RequestParam(name="description") String description, Model model){
         Product product = new Product(name, price, description);
         productRepo.save(product);
-        return "redirect:/";
+        return "addProduct";
     }
 }
