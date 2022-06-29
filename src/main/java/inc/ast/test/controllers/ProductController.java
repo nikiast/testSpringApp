@@ -1,6 +1,6 @@
 package inc.ast.test.controllers;
 
-import inc.ast.test.entitys.Product;
+import inc.ast.test.entitys.product.Product;
 import inc.ast.test.repos.ProductRepo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
