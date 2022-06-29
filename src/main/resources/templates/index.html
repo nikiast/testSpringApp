@@ -9,18 +9,18 @@
 <form th:action="@{/}" method="post">
     <div class="d-flex flex-column">
         <div class="input-group input-group-sm mb-3 d-flex justify-content-center">
-            <span class="input-group-text" id="inputGroup-sizing-sm">name</span>
+            <span class="input-group-text" id="inputGroup-sizing-sm">Name</span>
             <input name="name" type="text" class="form-control" style='min-width: 20%; max-width: 70%'
                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
         </div>
         <div class="input-group input-group-sm mb-3 d-flex justify-content-center">
-            <span class="input-group-text" id="inputGroup-sizing-sm">Login</span>
-            <input name="login" type="text" class="form-control" style='min-width: 20%; max-width: 70%'
+            <span class="input-group-text" id="inputGroup-sizing-sm">Price</span>
+            <input name="price" type="text" class="form-control" style='min-width: 20%; max-width: 70%'
                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
         </div>
         <div class="input-group input-group-sm mb-3 d-flex justify-content-center">
-            <span class="input-group-text" id="inputGroup-sizing-sm">Password</span>
-            <input name="password" type="password" class="form-control"
+            <span class="input-group-text" id="inputGroup-sizing-sm">description</span>
+            <input name="description" type="text" class="form-control"
                    style='min-width: 20%; max-width: 70%'>
         </div>
         <div class="text-center">
@@ -28,25 +28,23 @@
         </div>
     </div>
 </form>
-<div class="fs-3 text-center">Users</div>
+<div class="fs-3 text-center">Products</div>
 <div class=" mt-4 d-flex justify-content-center align-items-center">
     <table class="table table-hover" style="width:50%">
         <thead class="table-light">
         <tr>
-            <th scope="col">Id</th>
             <th scope="col">Name</th>
-            <th scope="col">Login</th>
-            <th scope="col">Password</th>
+            <th scope="col">Price</th>
+            <th scope="col">Description</th>
         </tr>
         </thead>
-        <div th:each="user: ${users}">
+        <div th:each="product: ${products}">
             <div>
                 <tbody>
                 <tr>
-                    <th><b th:text="${user.id}"></b></th>
-                    <th><span th:text="${user.name}"></span></th>
-                    <th><span th:text="${user.login}"></span></th>
-                    <th><span th:text="${user.password}"></span></th>
+                    <th><span th:text="${product.name}"></span></th>
+                    <th><span th:text="${product.price}"></span></th>
+                    <th><span th:text="${product.description}"></span></th>
                 </tr>
                 </tbody>
             </div>

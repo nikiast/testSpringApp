@@ -1,7 +1,7 @@
 package inc.ast.test.controllers;
 
-import inc.ast.test.entitys.User;
-import inc.ast.test.repos.UserRepo;
+import inc.ast.test.entitys.Product;
+import inc.ast.test.repos.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,22 +11,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class GreetingController {
+    private ProductRepo productRepo;
 
-    @Autowired
-    private UserRepo userRepo;
+    public GreetingController(ProductRepo productRepo) {
+        this.productRepo = productRepo;
+    }
 
     @GetMapping
     public String index(Model model) {
-        Iterable<User> userList = userRepo.findAll();
-        model.addAttribute("users", userList);
+        Iterable<Product> productList = productRepo.findAll();
+        model.addAttribute("products", productList);
         return "index";
     }
 
     @PostMapping
-    public String add(@RequestParam(name="login") String login, @RequestParam(name="password") String password,
-                        @RequestParam(name="name") String name, Model model){
-        User user = new User(name, login, password);
-        userRepo.save(user);
+    public String add(@RequestParam(name="name") String name, @RequestParam(name="price") String price,
+                        @RequestParam(name="description") String description, Model model){
+        Product product = new Product(name, price, description);
+        productRepo.save(product);
         return "redirect:/";
     }
 }
