@@ -20,7 +20,7 @@ public class ProductController {
 
     @GetMapping("/add")
     public String add(){
-        return "addProduct";
+        return "product/addProduct";
     }
 
     @PostMapping("/add")
@@ -28,6 +28,6 @@ public class ProductController {
                       @RequestParam(name="description") String description, Model model){
         Product product = new Product(name, price, description);
         productRepo.save(product);
-        return "addProduct";
+        return "product/addProduct";
     }
 }
