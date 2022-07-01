@@ -3,14 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit</title>
+    <div th:insert="fragments/header :: header"></div>
 </head>
 <body>
-<form th:action="@{/users/edit}" method="post">
+<div class="p-4 text-center">User Edit</div>
+<form th:action="@{update/{userId}(userId=${user.id})}" method="post">
     <div class="d-flex flex-column">
-        <div class="input-group input-group-sm p-5 d-flex justify-content-center">
-            <input name="username" type="text" value="${user.username}" class="form-control" style='min-width: 5%; max-width: 20%'
+        <div class="input-group input-group-sm p-3 d-flex justify-content-center">
+            <input name="username" th:value="${user.username}" type="text" class="form-control"
+                   style='min-width: 10%; max-width: 30%'
                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-            <button type="submit" class="btn btn-outline-success" style="width: 10%">Search</button>
+        </div>
+        <div class="input-group input-group-sm p-3 d-flex justify-content-center">
+            <input name="password" th:value="${user.password}" type="password" class="form-control"
+                   style='min-width: 10%; max-width: 30%'
+                   aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+        </div>
+        <div class="input-group input-group-sm p-5 d-flex justify-content-center">
+            <div class="form-check px-4">
+                <input name="role" th:checked="${USER} ? 'checked'" class="form-check-input" type="radio" id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1"> USER </label>
+            </div>
+            <div class="form-check px-4">
+                <input name="role" th:checked="${PROVIDER}" class="form-check-input" type="radio" id="flexRadioDefault2">
+                <label class="form-check-label" for="flexRadioDefault2"> PROVIDER </label>
+            </div>
+            <div class="form-check px-4">
+                <input name="role" th:checked="${ADMIN} " class="form-check-input" type="radio" id="flexRadioDefault3">
+                <label class="form-check-label" for="flexRadioDefault3"> ADMIN </label>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-column">
+        <div class="input-group input-group-sm p-1 d-flex justify-content-center">
+            <button type="submit" class="btn btn-outline-success" style="width: 10%">Save</button>
         </div>
     </div>
 </form>
