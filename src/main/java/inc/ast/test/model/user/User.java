@@ -18,10 +18,9 @@ public class User implements UserDetails {
     private String password;
     private boolean active;
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-    private Set<Role> role;
+    private Role role;
 
     public User() {
     }
@@ -30,7 +29,7 @@ public class User implements UserDetails {
         this.username = username;
         this.password = password;
         this.active = active;
-        this.role = Collections.singleton(role);
+        this.role = role;
     }
 
     public Long getId() {
@@ -65,11 +64,11 @@ public class User implements UserDetails {
         this.active = active;
     }
 
-    public Set<Role> getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(Set<Role> role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -95,7 +94,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRole();
+        return Collections.singleton(getRole());
     }
 
     @Override

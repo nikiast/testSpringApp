@@ -3,6 +3,7 @@ package inc.ast.test.controller;
 import inc.ast.test.model.user.Role;
 import inc.ast.test.model.user.User;
 import inc.ast.test.repository.UserRepo;
+import inc.ast.test.repository.UserServiceRepo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/registration")
 public class RegistrationController {
     private UserRepo userRepo;
+    private UserServiceRepo userServiceRepo;
 
-    public RegistrationController(UserRepo userRepo) {
+    public RegistrationController(UserRepo userRepo, UserServiceRepo userServiceRepo) {
         this.userRepo = userRepo;
+        this.userServiceRepo = userServiceRepo;
     }
 
     @GetMapping
@@ -28,14 +31,19 @@ public class RegistrationController {
     public String addUser(@RequestParam(name="username") String username,
                           @RequestParam(name="password") String password,
                           Model model) {
-        User newUser = new User(username, password, true, Role.USER);
-        Iterable<User> userFromDb = userRepo.findByUsername(newUser.getUsername());
 
-        if (newUser.equals(userFromDb)) {
-            model.addAttribute("message", "User exists!");
+        if (validationUsername(username)) {
+            User newUser = new User(username, password, true, Role.USER);
+            userRepo.save(newUser);
+            return "redirect:/login";
+        }else {
+            model.addAttribute("userExists", "User exists!");
             return "/security/registration";
         }
-        userRepo.save(newUser);
-        return "redirect:/login";
+    }
+
+    public boolean validationUsername(String username){
+        User user = userServiceRepo.findByUsername(username);
+        return user == null;
     }
 }

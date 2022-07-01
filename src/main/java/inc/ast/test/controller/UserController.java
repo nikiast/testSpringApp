@@ -67,16 +67,13 @@ public class UserController {
             userFromDB.setPassword(password);
             switch (role){
                 case ("USER") -> {
-                    userFromDB.getRole().clear();
-                    userFromDB.setRole(Collections.singleton(Role.USER));
+                    userFromDB.setRole(Role.USER);
                 }
                 case ("PROVIDER") -> {
-                    userFromDB.getRole().clear();
-                    userFromDB.setRole(Collections.singleton(Role.PROVIDER));
+                    userFromDB.setRole(Role.PROVIDER);
                 }
                 case ("ADMIN") -> {
-                    userFromDB.getRole().clear();
-                    userFromDB.setRole(Collections.singleton(Role.ADMIN));
+                    userFromDB.setRole(Role.ADMIN);
                 }
             }
         userRepo.save(userFromDB);
