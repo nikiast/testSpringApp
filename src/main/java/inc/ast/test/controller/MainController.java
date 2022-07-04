@@ -18,7 +18,7 @@ public class MainController {
     public String index(Model model) {
         Iterable<Product> productList = productRepo.findAll();
         model.addAttribute("products", productList);
-        return "main";
+        return "/main";
     }
 
 }

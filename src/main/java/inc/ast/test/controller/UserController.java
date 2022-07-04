@@ -3,6 +3,7 @@ package inc.ast.test.controller;
 import inc.ast.test.model.user.Role;
 import inc.ast.test.model.user.User;
 import inc.ast.test.repository.UserRepo;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import static inc.ast.test.controller.RegistrationController.validationUsername;
 
 @Controller
 @RequestMapping("/user")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
     UserRepo userRepo;
 
@@ -82,5 +84,11 @@ public class UserController {
         }
         userRepo.save(userFromDB);
         return "redirect:/user";
+    }
+
+    @GetMapping("deleteUser/{id}")
+    public String userEditForm(@PathVariable Long id) {
+        userRepo.deleteById(id);
+        return "redirect:/";
     }
 }
