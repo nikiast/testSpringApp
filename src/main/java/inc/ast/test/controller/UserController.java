@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
+import static inc.ast.test.controller.RegistrationController.validationUsername;
 
 @Controller
 @RequestMapping("/user")
@@ -28,7 +28,7 @@ public class UserController {
     @PostMapping("filter")
     public String filterByUsername(@RequestParam String filter,
                                    Model model) {
-            Iterable <User> users;
+        Iterable<User> users;
 
         if (filter != null && !filter.isEmpty()) {
             users = userRepo.findByUsername(filter);
@@ -44,38 +44,42 @@ public class UserController {
                                Model model) {
         User userFromDB = userRepo.findById(id).get();
         model.addAttribute("user", userFromDB);
-        model.addAttribute("role", userFromDB.getRole());
-        String role = userFromDB.getRole().toString();
-        switch (role){
-            case("USER") -> model.addAttribute("USER");
-            case("PROVIDER") -> model.addAttribute("PROVIDER");
-            case("ADMIN") -> model.addAttribute("ADMIN");
-        }
         return "user/userEdit";
     }
 
-    @PostMapping("update/{id}")
-    public String updateUser(@PathVariable Long id,
-                             @RequestParam String username,
-                             @RequestParam String password,
-                             @RequestParam String role,
-                             Model model) {
+    @PostMapping("updateUsername/{id}")
+    public String updateUsername(@PathVariable Long id,
+                                 @RequestParam String username,
+                                 Model model) {
         User userFromDB = userRepo.findById(id).get();
-
-
+        if (validationUsername(username)) {
             userFromDB.setUsername(username);
-            userFromDB.setPassword(password);
-            switch (role){
-                case ("USER") -> {
-                    userFromDB.setRole(Role.USER);
-                }
-                case ("PROVIDER") -> {
-                    userFromDB.setRole(Role.PROVIDER);
-                }
-                case ("ADMIN") -> {
-                    userFromDB.setRole(Role.ADMIN);
-                }
-            }
+            userRepo.save(userFromDB);
+            return "redirect:/user";
+        } else {
+            model.addAttribute("userExists", "User exists!");
+            return "redirect:/user/{id}";
+        }
+    }
+
+    @PostMapping("updatePassword/{id}")
+    public String updatePassword(@PathVariable Long id,
+                                 @RequestParam String password) {
+        User userFromDB = userRepo.findById(id).get();
+        userFromDB.setPassword(password);
+        userRepo.save(userFromDB);
+        return "redirect:/user";
+    }
+
+    @PostMapping("updateRole/{id}")
+    public String updateRole(@PathVariable Long id,
+                             @RequestParam String role) {
+        User userFromDB = userRepo.findById(id).get();
+        switch (role) {
+            case "USER" -> userFromDB.setRole(Role.USER);
+            case "PROVIDER" -> userFromDB.setRole(Role.PROVIDER);
+            case "ADMIN" -> userFromDB.setRole(Role.ADMIN);
+        }
         userRepo.save(userFromDB);
         return "redirect:/user";
     }

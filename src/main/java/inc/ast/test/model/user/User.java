@@ -72,6 +72,18 @@ public class User implements UserDetails {
         this.role = role;
     }
 
+    public boolean isUser(){
+        return this.role == Role.USER;
+    }
+
+    public boolean isProvider(){
+        return this.role == Role.PROVIDER;
+    }
+
+    public boolean isAdmin(){
+        return this.role == Role.ADMIN;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -97,6 +109,8 @@ public class User implements UserDetails {
         return Collections.singleton(getRole());
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -120,4 +134,8 @@ public class User implements UserDetails {
                 ", role=" + role +
                 '}';
     }
+//    public static void main(String[] args) {
+//        User user = new User("1", "2", true, Role.USER);
+//        System.out.println(user.getRole());
+//    }
 }

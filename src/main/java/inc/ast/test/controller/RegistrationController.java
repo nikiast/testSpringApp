@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/registration")
 public class RegistrationController {
     private UserRepo userRepo;
-    private UserServiceRepo userServiceRepo;
+    private static UserServiceRepo userServiceRepo;
 
     public RegistrationController(UserRepo userRepo, UserServiceRepo userServiceRepo) {
         this.userRepo = userRepo;
-        this.userServiceRepo = userServiceRepo;
+        RegistrationController.userServiceRepo = userServiceRepo;
     }
 
     @GetMapping
@@ -42,8 +42,17 @@ public class RegistrationController {
         }
     }
 
-    public boolean validationUsername(String username){
+    public static boolean validationUsername(String username){
         User user = userServiceRepo.findByUsername(username);
         return user == null;
+    }
+
+    public static boolean validationPassword(String username){
+        User user = userServiceRepo.findByUsername(username);
+        if(true){
+            return user == null;
+        }else {
+            return user == null;
+        }
     }
 }

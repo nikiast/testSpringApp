@@ -10,7 +10,8 @@
 <form th:action="@{/user/filter}" method="post">
     <div class="d-flex flex-column">
         <div class="input-group input-group-sm p-5 d-flex justify-content-center">
-            <input name="filter" type="text" placeholder="username" class="form-control" style='min-width: 5%; max-width: 20%'
+            <input name="filter" type="text" placeholder="username" class="form-control"
+                   style='min-width: 5%; max-width: 20%'
                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             <button type="submit" class="btn btn-outline-success" style="width: 10%">Search</button>
         </div>
@@ -37,7 +38,7 @@
                     <th><span th:text="${user.password}"></span></th>
                     <th><span th:text="${user.role}"></span></th>
                     <th><span th:text="${user.active}"></span></th>
-                    <th><a th:href="@{user/{userId}(userId=${user.id})}">Edit</a></th>
+                    <th><a th:href="@{/user/{userId}(userId=${user.id})}">Edit</a></th>
                 </tr>
                 </tbody>
             </div>
