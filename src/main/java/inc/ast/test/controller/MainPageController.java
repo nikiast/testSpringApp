@@ -7,10 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class MainController {
+public class MainPageController {
     private ProductRepo productRepo;
 
-    public MainController(ProductRepo productRepo) {
+    public MainPageController(ProductRepo productRepo) {
         this.productRepo = productRepo;
     }
 
@@ -18,7 +18,7 @@ public class MainController {
     public String index(Model model) {
         Iterable<Product> productList = productRepo.findAll();
         model.addAttribute("products", productList);
-        return "/main";
+        return "main";
     }
 
 }

@@ -42,10 +42,9 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public String userEditForm(@PathVariable Long id,
+    public String userEditForm(@PathVariable("id") User user,
                                Model model) {
-        User userFromDB = userRepo.findById(id).get();
-        model.addAttribute("user", userFromDB);
+        model.addAttribute("user", user);
         return "user/userEdit";
     }
 
