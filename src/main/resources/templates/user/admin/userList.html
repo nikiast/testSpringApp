@@ -7,8 +7,10 @@
 </head>
 <body>
 <div th:insert="fragments/header :: header"></div>
+
 <div class="fs-3 text-center">Users</div>
-<form th:action="@{/user/filter}" method="post">
+
+<form th:action="@{/admin/filter}" method="post">
     <div class="d-flex flex-column">
         <div class="input-group input-group-sm p-5 d-flex justify-content-center">
             <input name="filter" type="text" placeholder="username" class="form-control"
@@ -18,6 +20,7 @@
         </div>
     </div>
 </form>
+
 <div class=" mt-4 d-flex justify-content-center align-items-center">
     <table class="table table-hover" style="width:50%">
         <thead class="table-light">
@@ -39,7 +42,7 @@
                     <th><span th:text="${user.password}"></span></th>
                     <th><span th:text="${user.role}"></span></th>
                     <th><span th:text="${user.active}"></span></th>
-                    <th><a th:href="@{/user/{userId}(userId=${user.id})}">Edit</a></th>
+                    <th><a th:href="@{/admin/{userId}(userId=${user.id})}">Edit</a></th>
                 </tr>
                 </tbody>
             </div>

@@ -8,7 +8,9 @@
 </head>
 <body>
 <div th:insert="fragments/header :: header"></div>
+
 <div class="p-4 text-center">User Edit</div>
+
 <div class="text-danger mb-4 d-flex justify-content-center" th:if="${userExists}">
     <span th:text="${userExists}"></span>
 </div>

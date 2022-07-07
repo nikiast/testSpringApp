@@ -1,46 +1,48 @@
 package inc.ast.test.controller;
 
+import inc.ast.test.model.product.Bet;
 import inc.ast.test.model.product.Product;
 import inc.ast.test.model.user.User;
+import inc.ast.test.repository.BetRepo;
 import inc.ast.test.repository.ProductRepo;
 import inc.ast.test.repository.UserServiceRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
+
 @Controller
 public class MainPageController {
     private ProductRepo productRepo;
-    private UserServiceRepo userServiceRepo;
+    private BetRepo betRepo;
 
-    public MainPageController(ProductRepo productRepo) {
+    public MainPageController(ProductRepo productRepo, BetRepo betRepo) {
         this.productRepo = productRepo;
+        this.betRepo = betRepo;
+
     }
 
     @GetMapping
     public String index(Model model) {
         Iterable<Product> productList = productRepo.findAll();
+        List<Bet> betList = betRepo.findAll();
         model.addAttribute("products", productList);
+        model.addAttribute("bets", betList);
         return "main";
     }
 
-    @GetMapping("/ses")
-    public String indexx(Model model) {
+    @GetMapping("/isAuthorized")
+    public void isAuthorized(Model model){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        String username;
-        User user = (User) principal;
-//        if (principal instanceof UserDetails) {
-//            username = ((UserDetails)principal).getUsername();
-//        } else {
-//            username = principal.toString();
-//        }
-//
-//        User user = userServiceRepo.findByUsername(username);
-        model.addAttribute("user", user);
-        return "ses";
+        if(principal instanceof User){
+            User user = (User) principal;
+            String username = user.getUsername();
+            model.addAttribute("userForHeader", username);
+        }else {
+            model.addAttribute("userForHeader", "unknown");
+        }
     }
-
 }
