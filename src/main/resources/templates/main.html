@@ -25,13 +25,12 @@
                         <th><span th:text="${product.typeOfProducts}"></span></th>
                         <th><span th:text="${product.name}"></span></th>
                         <th>
-                        <div th:each="bet : ${bets}">
-                            <span th:text="${bet.price}"></span>
-                        </div>
+                            <form th:action=@{"betFromDbByProductId"} method="post">
+                                <input name="currentProductId" type="hidden" value="{product.id}">
+                            </form>
+                            <span th:text="${betFromDbByProductId}"></span>
                         </th>
-                        <th><span th:text="${product.description}"></span>
-                            <a th:href="@{/product/{productId}(productId=${product.id})}">More </a>
-                        </th>
+                        <th><span th:text="${product.description}"></span></th>
                     </tr>
                     </tbody>
                 </div>

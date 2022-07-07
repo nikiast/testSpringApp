@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Stream;
+
 import static inc.ast.test.controller.RegistrationController.validationUsername;
 
 @Controller
@@ -30,10 +33,10 @@ public class AdminController {
     @PostMapping("filter")
     public String filterByUsername(@RequestParam String filter,
                                    Model model) {
-        Iterable<User> users;
+        List<User> users;
 
         if (filter != null && !filter.isEmpty()) {
-            users = userRepo.findByUsername(filter);
+            users = Stream.of(userRepo.findByUsername(filter)).toList() ;
         } else {
             users = userRepo.findAll();
         }

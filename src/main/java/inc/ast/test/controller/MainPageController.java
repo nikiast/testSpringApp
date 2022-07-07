@@ -5,12 +5,13 @@ import inc.ast.test.model.product.Product;
 import inc.ast.test.model.user.User;
 import inc.ast.test.repository.BetRepo;
 import inc.ast.test.repository.ProductRepo;
-import inc.ast.test.repository.UserServiceRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -22,15 +23,20 @@ public class MainPageController {
     public MainPageController(ProductRepo productRepo, BetRepo betRepo) {
         this.productRepo = productRepo;
         this.betRepo = betRepo;
-
     }
 
     @GetMapping
     public String index(Model model) {
         Iterable<Product> productList = productRepo.findAll();
-        List<Bet> betList = betRepo.findAll();
         model.addAttribute("products", productList);
-        model.addAttribute("bets", betList);
+        return "main";
+    }
+
+    @PostMapping("getBetsByProductId")
+    public String getBetsByProductId(@RequestParam String currentProductId, Model model){
+        Long productId = Long.valueOf(currentProductId);
+        Bet betFromDbByProductId = betRepo.findByProductId(productId);
+        model.addAttribute("betFromDbByProductId", betFromDbByProductId.getPrice());
         return "main";
     }
 
