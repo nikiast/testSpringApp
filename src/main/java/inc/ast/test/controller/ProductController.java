@@ -10,18 +10,19 @@ import inc.ast.test.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/product")
 public class ProductController {
     ProductRepo productRepo;
     BetRepo betRepo;
-    @Autowired
-    UserRepo userRepo;
 
     public ProductController(ProductRepo productRepo, BetRepo betRepo) {
         this.productRepo = productRepo;
@@ -44,14 +45,34 @@ public class ProductController {
             case "PHONE" -> product.setTypeOfProducts(TypeOfProduct.PHONE);
             case "TABLET" -> product.setTypeOfProducts(TypeOfProduct.TABLET);
         }
-
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(principal instanceof User){
-            User user = (User) principal;
+        User user = UserController.getUserFromSession();
+        if(user != null){
             Bet bet = new Bet(user, product, price);
             productRepo.save(product);
             betRepo.save(bet);
+        }else {
+
         }
         return "redirect:/";
+    }
+
+    @GetMapping("{id}")
+    public String priceForm(@PathVariable("id") Product product,
+                            Model model){
+        List<Bet> betList = Stream.of(betRepo.findByProductId(product)).toList();
+        model.addAttribute("betList", betList);
+        model.addAttribute("product", product);
+        return "product/priceForm";
+    }
+
+    @PostMapping("newPrice/{id}")
+    public String addNewPriceForm(@PathVariable("id") Product product,
+                                  @RequestParam Integer price){
+        User user = UserController.getUserFromSession();
+        if(user != null){
+            Bet bet = new Bet(user, product, price.toString());
+            betRepo.save(bet);
+        }
+            return "redirect:/product/{id}";
     }
 }

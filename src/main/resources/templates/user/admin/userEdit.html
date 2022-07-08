@@ -19,9 +19,9 @@
     <div class="text-center mt-5">Your username: <span th:text="${user.username}"></span></div>
     <div class="d-flex flex-column ">
         <div class="input-group-sm p-3 d-flex justify-content-center">
-            <span class="input-group-text" id="inputGroup-sizing-sm">New username</span>
+            <span class="input-group-text" id="inputGroup-sizing-sm1">New username</span>
             <input name="username" type="text" class="form-control" style='min-width: 10%; max-width: 30%'
-                   aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                   aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm1">
         </div>
     </div>
     <div class="d-flex flex-column p-3">
@@ -33,9 +33,9 @@
 
 <form th:action="@{updatePassword/{userId}(userId=${user.id})}" method="post">
     <div class="input-group-sm p-3 mt-5 d-flex justify-content-center">
-        <span class="input-group-text" id="inputGroup-sizing-sm">New password</span>
+        <span class="input-group-text" id="inputGroup-sizing-sm2">New password</span>
         <input name="password" type="text" class="form-control" style='min-width: 10%; max-width: 30%'
-               aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+               aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm2">
     </div>
     <div class="d-flex flex-column p-3">
         <div class="p-1 d-flex justify-content-center">

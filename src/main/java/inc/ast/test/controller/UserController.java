@@ -64,7 +64,7 @@ public class UserController {
         return "redirect:/";
     }
 
-    private User getUserFromSession() {
+    protected static User getUserFromSession() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User userFromSession = null;
         if (principal instanceof User) {

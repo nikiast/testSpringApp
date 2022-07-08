@@ -16,6 +16,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Price</th>
                 <th scope="col">Description</th>
+                <th scope="col">Action</th>
             </tr>
             </thead>
             <div th:each="bet : ${betList}">
@@ -24,9 +25,9 @@
                     <tr>
                         <th><span th:text="${bet.productId.typeOfProducts}"></span></th>
                         <th><span th:text="${bet.productId.name}"></span></th>
-                        <th><span th:text="${bet.price}"></span></th>
-                        </th>
+                        <th><span th:text="${bet.price}"></span></th></th>
                         <th><span th:text="${bet.productId.description}"></span></th>
+                        <th><a th:href="@{/product/{productId}(productId=${bet.productId.getId})}">Edit</a></th>
                     </tr>
                     </tbody>
                 </div>

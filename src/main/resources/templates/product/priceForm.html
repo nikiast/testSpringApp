@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <div th:insert="fragments/bootstrap :: bootstrap"></div>
+</head>
+<body>
+<div th:insert="fragments/header :: header"></div>
+<div class="p-5 text-center">
+    <span th:text="${product.name}"></span>
+</div>
+
+<form th:action="@{newPrice/{productId}(productId=${product.id})}" method="post">
+    <div class="d-flex flex-column">
+        <div class="input-group input-group-sm p-5 d-flex justify-content-center">
+            <input name="price" type="number" placeholder="your price" class="form-control"
+                   style='min-width: 5%; max-width: 15%'
+                   aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"  autofocus>
+            <button type="submit" class="btn btn-outline-success" style="width: 10%">Bet</button>
+        </div>
+    </div>
+</form>
+
+<div class=" mt-4 d-flex justify-content-center align-items-center">
+    <table class="table table-hover" style="width:50%">
+        <thead class="table-light">
+        <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Price</th>
+            <th scope="col">Time</th>
+        </tr>
+        </thead>
+        <div th:each="bet : ${betList}">
+            <div>
+                <tbody>
+                <tr>
+                    <th><span th:text="${bet.userId.username}"></span></th>
+                    <th><span th:text="${bet.price}"></span></th>
+<!--                    <th><span th:text="${bet.productId.description}"></span></th>-->
+                </tr>
+                </tbody>
+            </div>
+        </div>
+    </table>
+</div>
+</body>
+</html>
