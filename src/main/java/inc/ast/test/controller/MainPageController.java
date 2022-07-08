@@ -39,16 +39,4 @@ public class MainPageController {
         model.addAttribute("betFromDbByProductId", betFromDbByProductId.getPrice());
         return "main";
     }
-
-    @GetMapping("/isAuthorized")
-    public void isAuthorized(Model model){
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(principal instanceof User){
-            User user = (User) principal;
-            String username = user.getUsername();
-            model.addAttribute("userForHeader", username);
-        }else {
-            model.addAttribute("userForHeader", "unknown");
-        }
-    }
 }
