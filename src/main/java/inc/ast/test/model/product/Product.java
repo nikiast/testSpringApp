@@ -17,7 +17,7 @@ public class Product implements Serializable {
     @Enumerated(EnumType.STRING)
     private TypeOfProduct typeOfProducts;
 
-    public Product() {
+    protected Product() {
     }
 
     public Product(String name, String description) {

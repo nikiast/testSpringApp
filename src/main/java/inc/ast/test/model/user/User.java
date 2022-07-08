@@ -20,7 +20,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User() {
+    protected User() {
     }
 
     public User(String username, String password, boolean active, Role role) {

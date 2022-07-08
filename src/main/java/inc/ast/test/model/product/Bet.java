@@ -22,7 +22,7 @@ public class Bet implements Serializable {
 
     private String price;
 
-    public Bet() {
+    protected Bet() {
     }
 
     public Bet(User userId, Product productId, String price) {

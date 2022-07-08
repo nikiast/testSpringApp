@@ -18,19 +18,15 @@
                 <th scope="col">Description</th>
             </tr>
             </thead>
-            <div th:each="product : ${products}">
+            <div th:each="bet : ${betList}">
                 <div>
                     <tbody>
                     <tr>
-                        <th><span th:text="${product.typeOfProducts}"></span></th>
-                        <th><span th:text="${product.name}"></span></th>
-                        <th>
-                            <form th:action=@{"betFromDbByProductId"} method="post">
-                                <input name="currentProductId" type="hidden" value="{product.id}">
-                            </form>
-                            <span th:text="${betFromDbByProductId}"></span>
+                        <th><span th:text="${bet.productId.typeOfProducts}"></span></th>
+                        <th><span th:text="${bet.productId.name}"></span></th>
+                        <th><span th:text="${bet.price}"></span></th>
                         </th>
-                        <th><span th:text="${product.description}"></span></th>
+                        <th><span th:text="${bet.productId.description}"></span></th>
                     </tr>
                     </tbody>
                 </div>

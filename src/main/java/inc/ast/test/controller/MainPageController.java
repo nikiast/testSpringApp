@@ -2,18 +2,15 @@ package inc.ast.test.controller;
 
 import inc.ast.test.model.product.Bet;
 import inc.ast.test.model.product.Product;
-import inc.ast.test.model.user.User;
 import inc.ast.test.repository.BetRepo;
 import inc.ast.test.repository.ProductRepo;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class MainPageController {
@@ -27,16 +24,22 @@ public class MainPageController {
 
     @GetMapping
     public String index(Model model) {
-        Iterable<Product> productList = productRepo.findAll();
-        model.addAttribute("products", productList);
+        List<Bet> betList = betRepo.findAll();
+        model.addAttribute("betList", betList);
         return "main";
     }
 
-    @PostMapping("getBetsByProductId")
-    public String getBetsByProductId(@RequestParam String currentProductId, Model model){
-        Long productId = Long.valueOf(currentProductId);
-        Bet betFromDbByProductId = betRepo.findByProductId(productId);
-        model.addAttribute("betFromDbByProductId", betFromDbByProductId.getPrice());
-        return "main";
+    public Map<Long, Product> getProductMap(){
+        return productRepo
+                .findAll()
+                .stream()
+                .collect(Collectors.toMap(Product::getId, v -> v));
+    }
+
+    public Map<Long, Bet> getBetMap(){
+        return betRepo
+                .findAll()
+                .stream()
+                .collect(Collectors.toMap(v->v.getProductId().getId(), v -> v));
     }
 }
