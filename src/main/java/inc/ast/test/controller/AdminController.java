@@ -31,12 +31,10 @@ public class AdminController {
     }
 
     @PostMapping("filter")
-    public String filterByUsername(@RequestParam String filter,
-                                   Model model) {
+    public String filterByUsername(@RequestParam String filter, Model model) {
         List<User> users;
-
         if (filter != null && !filter.isEmpty()) {
-            users = Stream.of(userRepo.findByUsername(filter)).toList() ;
+            users = Stream.of(userRepo.findByUsername(filter)).toList();
         } else {
             users = userRepo.findAll();
         }
@@ -45,16 +43,13 @@ public class AdminController {
     }
 
     @GetMapping("{id}")
-    public String userEditForm(@PathVariable("id") User user,
-                               Model model) {
+    public String userEditForm(@PathVariable("id") User user, Model model) {
         model.addAttribute("user", user);
         return "user/admin/userEdit";
     }
 
     @PostMapping("updateUsername/{id}")
-    public String updateUsername(@PathVariable Long id,
-                                 @RequestParam String username,
-                                 Model model) {
+    public String updateUsername(@PathVariable Long id, @RequestParam String username, Model model) {
         User userFromDB = userRepo.findById(id).get();
         if (validationUsername(username)) {
             userFromDB.setUsername(username);
@@ -66,8 +61,7 @@ public class AdminController {
     }
 
     @PostMapping("updatePassword/{id}")
-    public String updatePassword(@PathVariable Long id,
-                                 @RequestParam String password) {
+    public String updatePassword(@PathVariable Long id, @RequestParam String password) {
         User userFromDB = userRepo.findById(id).get();
         userFromDB.setPassword(password);
         userRepo.save(userFromDB);
@@ -75,8 +69,7 @@ public class AdminController {
     }
 
     @PostMapping("updateRole/{id}")
-    public String updateRole(@PathVariable Long id,
-                             @RequestParam String role) {
+    public String updateRole(@PathVariable Long id, @RequestParam String role) {
         User userFromDB = userRepo.findById(id).get();
         switch (role) {
             case "USER" -> userFromDB.setRole(Role.USER);
@@ -88,8 +81,9 @@ public class AdminController {
     }
 
     @GetMapping("deleteUser/{id}")
-    public String userEditForm(@PathVariable Long id) {
-        userRepo.deleteById(id);
-        return "redirect:/";
+    public String userEditForm(@PathVariable User user) {
+        user.setActive(false);
+        userRepo.save(user);
+        return "redirect:/admin/{id}";
     }
 }

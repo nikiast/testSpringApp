@@ -6,33 +6,45 @@
     <div th:insert="fragments/bootstrap :: bootstrap"></div>
 </head>
 <body>
-    <div th:insert="fragments/header :: header"></div>
-    <div class="p-5 text-center">Products</div>
-    <div class=" mt-4 d-flex justify-content-center align-items-center">
-        <table class="table table-hover" style="width:50%">
-            <thead class="table-light">
-            <tr>
-                <th scope="col">Type</th>
-                <th scope="col">Name</th>
-                <th scope="col">Price</th>
-                <th scope="col">Description</th>
-                <th scope="col">Action</th>
-            </tr>
-            </thead>
-            <div th:each="bet : ${betList}">
-                <div>
-                    <tbody>
-                    <tr>
-                        <th><span th:text="${bet.productId.typeOfProducts}"></span></th>
-                        <th><span th:text="${bet.productId.name}"></span></th>
-                        <th><span th:text="${bet.price}"></span></th></th>
-                        <th><span th:text="${bet.productId.description}"></span></th>
-                        <th><a th:href="@{/product/{productId}(productId=${bet.productId.getId})}">Edit</a></th>
-                    </tr>
-                    </tbody>
-                </div>
+<div th:insert="fragments/header :: header"></div>
+<div class="p-5 text-center">Products</div>
+<div class=" mt-4 d-flex justify-content-center align-items-center">
+    <table class="table table-hover" style="width:50%">
+        <thead class="table-light">
+        <tr>
+            <th scope="col">Type</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Description</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <div th:each="bet : ${betList}">
+            <div>
+                <tbody>
+                <tr>
+                    <th><span th:text="${bet.productId.typeOfProducts}"></span></th>
+                    <th><span th:text="${bet.productId.name}"></span></th>
+                    <th><span th:text="${bet.price}"></span></th></th>
+                    <th><span th:text="${bet.productId.description}"></span></th>
+                    <th><a th:href="@{/product/{productId}(productId=${bet.productId.getId})}">Edit</a></th>
+                </tr>
+                </tbody>
             </div>
-        </table>
-    </div>
+        </div>
+    </table>
+</div>
 </body>
 </html>
+<!--                        <div th:each="bet : ${betList}">-->
+<!--                            <div th:if="${product.id} == ${bet.productId.getId}">-->
+<!--                                <th><span th:text="${bet.price}"></span></th></th>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <th>-->
+<!--                        <div th:each="price : ${product.prises}">-->
+<!--                            <span th:text="${price}"></span>-->
+<!--                        </div>-->
+
+<!--                        </th>-->
+<!--                        <th><span th:attr="min=#{product.prices}"></span></th>-->

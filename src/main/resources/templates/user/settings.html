@@ -76,7 +76,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Cancel</button>
-                    <form th:action="@{deleteUser/{userId}(userId=${user.id})}" method="get">
+                    <form th:action="@{deleteUser}" method="get">
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                 </div>

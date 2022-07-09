@@ -9,13 +9,16 @@ import java.util.Set;
 @Entity
 public class Product implements Serializable {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String description;
 
     @Enumerated(EnumType.STRING)
     private TypeOfProduct typeOfProducts;
+
+    @OneToMany(mappedBy = "productId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Bet> prices;
 
     protected Product() {
     }
@@ -57,21 +60,30 @@ public class Product implements Serializable {
         this.typeOfProducts = typeOfProducts;
     }
 
+    public List<Bet> getPrices() {
+        return prices;
+    }
+
+    public void setPrices(List<Bet> prices) {
+        this.prices = prices;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(getId(), product.getId()) && Objects.equals(getName(), product.getName()) && Objects.equals(getDescription(), product.getDescription()) && getTypeOfProducts() == product.getTypeOfProducts();
+        return Objects.equals(getId(), product.getId()) && Objects.equals(getName(), product.getName()) && Objects.equals(getDescription(), product.getDescription()) && getTypeOfProducts() == product.getTypeOfProducts() && Objects.equals(getPrices(), product.getPrices());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getDescription(), getTypeOfProducts());
+        return Objects.hash(getId(), getName(), getDescription(), getTypeOfProducts(), getPrices());
     }
 
     @Override
-    public String toString() {
+    public String
+    toString() {
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +

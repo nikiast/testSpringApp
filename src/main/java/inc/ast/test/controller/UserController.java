@@ -2,10 +2,12 @@ package inc.ast.test.controller;
 
 import inc.ast.test.model.user.User;
 import inc.ast.test.repository.UserRepo;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import static inc.ast.test.controller.RegistrationController.validationUsername;
 
 @Controller
@@ -18,8 +20,8 @@ public class UserController {
     }
 
     @GetMapping("/settings")
-    public String userSettings(Model model) {
-        User userFromSession = getUserFromSession();
+    public String userSettings(@AuthenticationPrincipal User userFromSession,
+                               Model model) {
         if (userFromSession != null) {
             model.addAttribute("user", userFromSession);
         } else {
@@ -29,9 +31,9 @@ public class UserController {
     }
 
     @PostMapping("updateUserUsername")
-    public String updateUsername(@RequestParam String username,
+    public String updateUsername(@AuthenticationPrincipal User userFromSession,
+                                 @RequestParam String username,
                                  Model model) {
-        User userFromSession = getUserFromSession();
         if (validationUsername(username) && userFromSession != null) {
             userFromSession.setUsername(username);
             userRepo.save(userFromSession);
@@ -43,9 +45,9 @@ public class UserController {
     }
 
     @PostMapping("updateUserPassword")
-    public String updatePassword(@RequestParam String password,
+    public String updatePassword(@AuthenticationPrincipal User userFromSession,
+                                 @RequestParam String password,
                                  Model model) {
-        User userFromSession = getUserFromSession();
         if (userFromSession != null) {
             userFromSession.setPassword(password);
             userRepo.save(userFromSession);
@@ -57,19 +59,10 @@ public class UserController {
     }
 
     @GetMapping("deleteUser")
-    public String userEditForm() {
-        User userFromSession = getUserFromSession();
-        userRepo.deleteById(userFromSession.getId());
+    public String userEditForm(@AuthenticationPrincipal User userFromSession) {
+        userFromSession.setActive(false);
+        userRepo.save(userFromSession);
         SecurityContextHolder.clearContext();
         return "redirect:/";
-    }
-
-    protected static User getUserFromSession() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User userFromSession = null;
-        if (principal instanceof User) {
-            userFromSession = (User) principal;
-        }
-        return userFromSession;
     }
 }

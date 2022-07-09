@@ -1,5 +1,6 @@
 package inc.ast.test.model.product;
 
+import inc.ast.test.model.user.Role;
 import inc.ast.test.model.user.User;
 
 import javax.persistence.*;
@@ -20,12 +21,12 @@ public class Bet implements Serializable {
     @JoinColumn(name = "product_id", nullable = false)
     private Product productId;
 
-    private String price;
+    private Integer price;
 
     protected Bet() {
     }
 
-    public Bet(User userId, Product productId, String price) {
+    public Bet(User userId, Product productId, Integer price) {
         this.userId = userId;
         this.productId = productId;
         this.price = price;
@@ -55,12 +56,16 @@ public class Bet implements Serializable {
         this.productId = productId;
     }
 
-    public String getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public int compareTo(Bet o) {
+        return this.getPrice().compareTo(o.getPrice());
     }
 
     @Override
@@ -86,4 +91,10 @@ public class Bet implements Serializable {
                 ", price='" + price + '\'' +
                 '}';
     }
+
+//    public static void main(String[] args) {
+//        Bet a = new Bet(new User("111","111",true, Role.USER), new Product("111", "111"), 5);
+//        Bet b = new Bet(new User("222","222",true, Role.USER), new Product("222", "222"), 10);
+//        System.out.println(a.compareTo(b));
+//    }
 }

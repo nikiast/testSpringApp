@@ -7,10 +7,11 @@ import inc.ast.test.repository.ProductRepo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Controller
 public class MainPageController {
@@ -27,19 +28,5 @@ public class MainPageController {
         List<Bet> betList = betRepo.findAll();
         model.addAttribute("betList", betList);
         return "main";
-    }
-
-    public Map<Long, Product> getProductMap(){
-        return productRepo
-                .findAll()
-                .stream()
-                .collect(Collectors.toMap(Product::getId, v -> v));
-    }
-
-    public Map<Long, Bet> getBetMap(){
-        return betRepo
-                .findAll()
-                .stream()
-                .collect(Collectors.toMap(v->v.getProductId().getId(), v -> v));
     }
 }

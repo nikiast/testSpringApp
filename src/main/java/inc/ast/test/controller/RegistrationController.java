@@ -25,30 +25,30 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String addUser(@RequestParam(name="username") String username,
-                          @RequestParam(name="password") String password,
+    public String addUser(@RequestParam(name = "username") String username,
+                          @RequestParam(name = "password") String password,
                           Model model) {
 
         if (validationUsername(username)) {
             User newUser = new User(username, password, true, Role.USER);
             userRepo.save(newUser);
             return "redirect:/login";
-        }else {
+        } else {
             model.addAttribute("userExists", "User exists!");
             return "/security/registration";
         }
     }
 
-    public static boolean validationUsername(String username){
+    public static boolean validationUsername(String username) {
         User user = userRepo.findByUsername(username);
         return user == null;
     }
 
-    public static boolean validationPassword(String username){
+    public static boolean validationPassword(String username) {
         User user = userRepo.findByUsername(username);
-        if(true){
+        if (true) {
             return user == null;
-        }else {
+        } else {
             return user == null;
         }
     }
