@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+    <div th:insert="fragments/bootstrap :: bootstrap"></div>
+</head>
+<body>
+<div th:insert="fragments/header :: header"></div>
+<div class="p-5 text-center">Calculator</div>
+<form th:action="@{/calc}" method="post">
+    <div class="d-flex flex-column">
+        <div class="input-group input-group-sm mb-3 d-flex justify-content-center">
+            <span class="input-group-text">Value1</span>
+            <input name="value1" type="number" class="form-control" style='max-width: 10%'>
+        </div>
+        <div class="input-group-sm p-5 d-flex justify-content-center">
+            <div class="form-check px-4">
+                <input class="form-check-input" name="operation"
+                       type="radio" id="+" value="+">
+                <label class="form-check-label" for="+">+</label>
+            </div>
+            <div class="form-check px-4">
+                <input class="form-check-input" name="operation"
+                       type="radio" id="-" value="-">
+                <label class="form-check-label" for="-">-</label>
+            </div>
+            <div class="form-check px-4">
+                <input class="form-check-input" name="operation"
+                       type="radio" id="*" value="*">
+                <label class="form-check-label" for="*">*</label>
+            </div>
+            <div class="form-check px-4">
+                <input class="form-check-input" name="operation"
+                       type="radio" id="/" value="/">
+                <label class="form-check-label" for="/">/</label>
+            </div>
+        </div>
+        <div class="input-group input-group-sm mb-3 d-flex justify-content-center">
+            <span class="input-group-text">Value2</span>
+            <input name="value2" type="number" class="form-control" style='max-width: 10%'>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-outline-success" style="width: 5%">=</button>
+        </div>
+    </div>
+    <div class="input-group-sm p-5 d-flex justify-content-center">
+        <span class="input-group-text">Result</span>
+        <input th:value="${result}" class="form-control" style='max-width: 5%'>
+    </div>
+</form>
+</body>
+</html>
