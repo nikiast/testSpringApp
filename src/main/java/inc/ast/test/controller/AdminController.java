@@ -81,7 +81,7 @@ public class AdminController {
     }
 
     @GetMapping("deleteUser/{id}")
-    public String userEditForm(@PathVariable User user) {
+    public String userEditForm(@PathVariable("id") User user) {
         user.setActive(false);
         userRepo.save(user);
         return "redirect:/admin/{id}";
