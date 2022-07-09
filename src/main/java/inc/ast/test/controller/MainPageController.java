@@ -7,11 +7,10 @@ import inc.ast.test.repository.ProductRepo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MainPageController {
@@ -25,8 +24,26 @@ public class MainPageController {
 
     @GetMapping
     public String index(Model model) {
-        List<Bet> betList = betRepo.findAll();
-        model.addAttribute("betList", betList);
+        Map<Product, Integer> priceProductMap = getPriceProductMap();
+        model.addAttribute("priceProductMap", priceProductMap);
         return "main";
+    }
+
+    protected Map<Product, Integer> getPriceProductMap() {
+        List<Bet> betList = betRepo.findAll();
+        Map<Product, Integer> priceProductMap = new HashMap<>();
+        for (Bet bet : betList) {
+            Product productFromBetList = bet.getProductId();
+
+            if (!priceProductMap.containsKey(productFromBetList)) {
+                priceProductMap.put(productFromBetList, bet.getPrice());
+            } else {
+                Integer currentPrice = priceProductMap.get(productFromBetList);
+                if (currentPrice > bet.getPrice()) {
+                    priceProductMap.put(bet.getProductId(), bet.getPrice());
+                }
+            }
+        }
+        return priceProductMap;
     }
 }

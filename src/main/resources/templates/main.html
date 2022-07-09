@@ -19,15 +19,15 @@
             <th scope="col">Action</th>
         </tr>
         </thead>
-        <div th:each="bet : ${betList}">
+        <div th:each="entry : ${priceProductMap}">
             <div>
                 <tbody>
                 <tr>
-                    <th><span th:text="${bet.productId.typeOfProducts}"></span></th>
-                    <th><span th:text="${bet.productId.name}"></span></th>
-                    <th><span th:text="${bet.price}"></span></th></th>
-                    <th><span th:text="${bet.productId.description}"></span></th>
-                    <th><a th:href="@{/product/{productId}(productId=${bet.productId.getId})}">Edit</a></th>
+                    <th><span th:text="${entry.key.typeOfProducts}"></span></th>
+                    <th><span th:text="${entry.key.name}"></span></th>
+                    <th><span th:text="${entry.value}"></span></th>
+                    <th><span th:text="${entry.key.description}"></span></th>
+                    <th><a th:href="@{/product/{productId}(productId=${entry.key.id})}">Edit</a></th>
                 </tr>
                 </tbody>
             </div>
@@ -36,15 +36,3 @@
 </div>
 </body>
 </html>
-<!--                        <div th:each="bet : ${betList}">-->
-<!--                            <div th:if="${product.id} == ${bet.productId.getId}">-->
-<!--                                <th><span th:text="${bet.price}"></span></th></th>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <th>-->
-<!--                        <div th:each="price : ${product.prises}">-->
-<!--                            <span th:text="${price}"></span>-->
-<!--                        </div>-->
-
-<!--                        </th>-->
-<!--                        <th><span th:attr="min=#{product.prices}"></span></th>-->

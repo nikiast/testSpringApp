@@ -1,6 +1,5 @@
 package inc.ast.test.controller;
 
-import inc.ast.test.model.user.Role;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
