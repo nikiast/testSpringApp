@@ -61,7 +61,7 @@ public class UserController {
 
     @GetMapping("deleteUser")
     public String userEditForm(@AuthenticationPrincipal User userFromSession) {
-        userFromSession.setLock(false);
+        userFromSession.setActive(false);
         userRepo.save(userFromSession);
         SecurityContextHolder.clearContext();
         return "redirect:/";

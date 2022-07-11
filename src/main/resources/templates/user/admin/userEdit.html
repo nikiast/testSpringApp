@@ -23,7 +23,8 @@
             <th scope="col">Email</th>
             <th scope="col">Password</th>
             <th scope="col">Role</th>
-            <th scope="col">Is Lock</th>
+            <th scope="col">Registration Time</th>
+            <th scope="col">Active</th>
         </tr>
         </thead>
         <div>
@@ -33,7 +34,8 @@
                 <th><span th:text="${user.email}"></span></th>
                 <th><span th:text="${user.password}"></span></th>
                 <th><span th:text="${user.role}"></span></th>
-                <th><span th:text="${user.lock}"></span></th>
+                <th><span th:text="${user.registrationTime}"></span></th>
+                <th><span th:text="${user.active}"></span></th>
             </tr>
             </tbody>
         </div>

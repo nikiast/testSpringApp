@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
@@ -17,7 +18,8 @@ public class User implements UserDetails {
     private String username;
     private String email;
     private String password;
-    private boolean isLock;
+    private boolean active;
+    private LocalDateTime registrationTime;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -25,11 +27,12 @@ public class User implements UserDetails {
     protected User() {
     }
 
-    public User(String username, String email, String password, Role role, boolean isLock) {
+    public User(String username, String email, String password, Role role, LocalDateTime registrationTime, boolean active) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.isLock = isLock;
+        this.active = active;
+        this.registrationTime = registrationTime;
         this.role = role;
     }
 
@@ -65,12 +68,12 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public boolean isLock() {
-        return isLock;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setLock(boolean lock) {
-        this.isLock = lock;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public Role getRole() {
@@ -93,6 +96,14 @@ public class User implements UserDetails {
         return this.role == Role.ADMIN;
     }
 
+    public LocalDateTime getRegistrationTime() {
+        return registrationTime;
+    }
+
+    public void setRegistrationTime(LocalDateTime registrationTime) {
+        this.registrationTime = registrationTime;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -100,7 +111,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return isLock;
+        return active;
     }
 
     @Override
@@ -110,7 +121,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isLock();
+        return isActive();
     }
 
     @Override
@@ -123,12 +134,15 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return isLock() == user.isLock() && Objects.equals(getId(), user.getId()) && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && getRole() == user.getRole();
+        return isActive() == user.isActive() && Objects.equals(getId(), user.getId())
+                && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getEmail(), user.getEmail())
+                && Objects.equals(getPassword(), user.getPassword())
+                && Objects.equals(getRegistrationTime(), user.getRegistrationTime()) && getRole() == user.getRole();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUsername(), getEmail(), getPassword(), isLock(), getRole());
+        return Objects.hash(getId(), getUsername(), getEmail(), getPassword(), isActive(), getRegistrationTime(), getRole());
     }
 
     @Override
@@ -138,8 +152,9 @@ public class User implements UserDetails {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", active=" + active +
+                ", registrationTime=" + registrationTime +
                 ", role=" + role +
-                ", active=" + isLock +
                 '}';
     }
 }

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
+
 @Controller
 @RequestMapping("/registration")
 public class RegistrationController {
@@ -34,7 +36,8 @@ public class RegistrationController {
                           Model model) {
 
         if (userService.validationUsername(username)) {
-            User newUser = new User(username, email, password, Role.USER, true);
+            LocalDateTime registrationTime = LocalDateTime.now();
+            User newUser = new User(username, email, password, Role.USER, registrationTime, true);
             userRepo.save(newUser);
             return "redirect:/login";
         } else {
