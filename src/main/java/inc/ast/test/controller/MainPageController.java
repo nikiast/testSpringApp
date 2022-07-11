@@ -24,7 +24,7 @@ public class MainPageController {
 
     @GetMapping
     public String index(Model model) {
-        Map<Product, Integer> priceProductMap = productService.getPriceProductMap();
+        Map<Product, Integer> priceProductMap = productService.getProductPriceMap();
         model.addAttribute("priceProductMap", priceProductMap);
         return "main";
     }

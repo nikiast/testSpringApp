@@ -17,7 +17,7 @@ public class ProductService {
         this.betRepo = betRepo;
     }
 
-    public Map<Product, Integer> getPriceProductMap() {
+    public Map<Product, Integer> getProductPriceMap() {
         List<Bet> betList = betRepo.findAll();
         Map<Product, Integer> priceProductMap = new HashMap<>();
         Product productFromBetList;
