@@ -15,6 +15,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String username;
+    private String email;
     private String password;
     private boolean active;
 
@@ -24,9 +25,10 @@ public class User implements UserDetails {
     protected User() {
     }
 
-    public User(String username, String password, boolean active, Role role) {
+    public User(String username, String email, String password, Role role, boolean active) {
         this.username = username;
         this.password = password;
+        this.email = email;
         this.active = active;
         this.role = role;
     }
@@ -53,6 +55,14 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public boolean isActive() {
@@ -108,20 +118,17 @@ public class User implements UserDetails {
         return Collections.singleton(getRole());
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return isActive() == user.isActive() && Objects.equals(getId(), user.getId()) && Objects.equals(getUsername(),
-                user.getUsername()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getRole(),
-                user.getRole());
+        return isActive() == user.isActive() && Objects.equals(getId(), user.getId()) && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && getRole() == user.getRole();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUsername(), getPassword(), isActive(), getRole());
+        return Objects.hash(getId(), getUsername(), getEmail(), getPassword(), isActive(), getRole());
     }
 
     @Override
@@ -129,13 +136,10 @@ public class User implements UserDetails {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", active=" + active +
                 ", role=" + role +
+                ", active=" + active +
                 '}';
     }
-//    public static void main(String[] args) {
-//        User user = new User("1", "2", true, Role.USER);
-//        System.out.println(user.getRole());
-//    }
 }

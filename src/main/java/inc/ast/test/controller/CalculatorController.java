@@ -12,23 +12,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class CalculatorController {
 
     @GetMapping
-    public String calculator(){
+    public String calculator() {
         return "calculator/calc";
     }
 
     @PostMapping
-    public String calculatorPost(@RequestParam(name="value1") Double value1,
-                                 @RequestParam(name="value2") Double value2,
-                                 @RequestParam(name="operation") String operation,
-                                 Model model){
-        if(!(value2 == 0 && operation.equals("/"))){
+    public String calculatorPost(@RequestParam(name = "value1") Double value1,
+                                 @RequestParam(name = "value2") Double value2,
+                                 @RequestParam(name = "operation") String operation,
+                                 Model model) {
+        if (!(value2 == 0 && operation.equals("/"))) {
             switch (operation) {
-                case "+" -> model.addAttribute("result", value1+value2);
-                case "-" -> model.addAttribute("result", value1-value2);
-                case "*" -> model.addAttribute("result", value1*value2);
-                case "/" -> model.addAttribute("result", value1/value2);
+                case "+" -> model.addAttribute("result", value1 + value2);
+                case "-" -> model.addAttribute("result", value1 - value2);
+                case "*" -> model.addAttribute("result", value1 * value2);
+                case "/" -> model.addAttribute("result", value1 / value2);
             }
-        }else {
+        } else {
             model.addAttribute("result", "NaN");
         }
         return "calculator/calc";

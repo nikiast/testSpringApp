@@ -31,6 +31,22 @@
     </div>
 </form>
 
+<form th:action="@{updateEmail/{userId}(userId=${user.id})}" method="post">
+    <div class="text-center mt-5">Your email: <span th:text="${user.email}"></span></div>
+    <div class="d-flex flex-column ">
+        <div class="input-group-sm p-3 d-flex justify-content-center">
+            <span class="input-group-text" id="inputGroup-sizing-sm3">New username</span>
+            <input name="email" type="text" class="form-control" style='min-width: 10%; max-width: 30%'
+                   aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm3">
+        </div>
+    </div>
+    <div class="d-flex flex-column p-3">
+        <div class="p-1 d-flex justify-content-center">
+            <button type="submit" class="btn btn-outline-success" style="width: 10%">Save email</button>
+        </div>
+    </div>
+</form>
+
 <form th:action="@{updatePassword/{userId}(userId=${user.id})}" method="post">
     <div class="input-group-sm p-3 mt-5 d-flex justify-content-center">
         <span class="input-group-text" id="inputGroup-sizing-sm2">New password</span>

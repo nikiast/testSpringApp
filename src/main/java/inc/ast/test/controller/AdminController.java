@@ -3,6 +3,7 @@ package inc.ast.test.controller;
 import inc.ast.test.model.user.Role;
 import inc.ast.test.model.user.User;
 import inc.ast.test.repository.UserRepo;
+import inc.ast.test.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,16 +12,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static inc.ast.test.controller.RegistrationController.validationUsername;
-
 @Controller
 @PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/admin")
 public class AdminController {
-    UserRepo userRepo;
+    private UserRepo userRepo;
+    private UserService userService;
 
-    public AdminController(UserRepo userRepo) {
+    public AdminController(UserRepo userRepo, UserService userService) {
         this.userRepo = userRepo;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -49,34 +50,38 @@ public class AdminController {
     }
 
     @PostMapping("updateUsername/{id}")
-    public String updateUsername(@PathVariable Long id, @RequestParam String username, Model model) {
-        User userFromDB = userRepo.findById(id).get();
-        if (validationUsername(username)) {
-            userFromDB.setUsername(username);
-            userRepo.save(userFromDB);
+    public String updateUsername(@PathVariable("id") User user, @RequestParam String username, Model model) {
+        if (userService.validationUsername(username)) {
+            user.setUsername(username);
+            userRepo.save(user);
         } else {
             model.addAttribute("userExists", "User exists!");
         }
         return "redirect:/admin/{id}";
     }
 
+    @PostMapping("updateEmail/{id}")
+    public String updateEmail(@PathVariable("id") User user, @RequestParam String email, Model model) {
+        user.setEmail(email);
+        userRepo.save(user);
+        return "redirect:/admin/{id}";
+    }
+
     @PostMapping("updatePassword/{id}")
-    public String updatePassword(@PathVariable Long id, @RequestParam String password) {
-        User userFromDB = userRepo.findById(id).get();
-        userFromDB.setPassword(password);
-        userRepo.save(userFromDB);
+    public String updatePassword(@PathVariable("id") User user, @RequestParam String password) {
+        user.setPassword(password);
+        userRepo.save(user);
         return "redirect:/admin/{id}";
     }
 
     @PostMapping("updateRole/{id}")
-    public String updateRole(@PathVariable Long id, @RequestParam String role) {
-        User userFromDB = userRepo.findById(id).get();
+    public String updateRole(@PathVariable("id") User user, @RequestParam String role) {
         switch (role) {
-            case "USER" -> userFromDB.setRole(Role.USER);
-            case "PROVIDER" -> userFromDB.setRole(Role.PROVIDER);
-            case "ADMIN" -> userFromDB.setRole(Role.ADMIN);
+            case "USER" -> user.setRole(Role.USER);
+            case "PROVIDER" -> user.setRole(Role.PROVIDER);
+            case "ADMIN" -> user.setRole(Role.ADMIN);
         }
-        userRepo.save(userFromDB);
+        userRepo.save(user);
         return "redirect:/admin/{id}";
     }
 

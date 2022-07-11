@@ -3,6 +3,7 @@ package inc.ast.test.controller;
 import inc.ast.test.model.user.Role;
 import inc.ast.test.model.user.User;
 import inc.ast.test.repository.UserRepo;
+import inc.ast.test.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/registration")
 public class RegistrationController {
-    private static UserRepo userRepo;
+    private UserRepo userRepo;
+    private UserService userService;
 
-    public RegistrationController(UserRepo userRepo, UserRepo userServiceRepo) {
+    public RegistrationController(UserRepo userRepo, UserService userService) {
         this.userRepo = userRepo;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -26,30 +29,17 @@ public class RegistrationController {
 
     @PostMapping
     public String addUser(@RequestParam(name = "username") String username,
+                          @RequestParam(name = "email") String email,
                           @RequestParam(name = "password") String password,
                           Model model) {
 
-        if (validationUsername(username)) {
-            User newUser = new User(username, password, true, Role.USER);
+        if (userService.validationUsername(username)) {
+            User newUser = new User(username, email, password, Role.USER, true);
             userRepo.save(newUser);
             return "redirect:/login";
         } else {
             model.addAttribute("userExists", "User exists!");
             return "/security/registration";
-        }
-    }
-
-    public static boolean validationUsername(String username) {
-        User user = userRepo.findByUsername(username);
-        return user == null;
-    }
-
-    public static boolean validationPassword(String username) {
-        User user = userRepo.findByUsername(username);
-        if (true) {
-            return user == null;
-        } else {
-            return user == null;
         }
     }
 }

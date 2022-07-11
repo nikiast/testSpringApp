@@ -13,6 +13,7 @@
         <thead class="table-light">
         <tr>
             <th scope="col">Username</th>
+            <th scope="col">Email</th>
             <th scope="col">Password</th>
             <th scope="col">Role</th>
             <th scope="col">Active</th>
@@ -22,6 +23,7 @@
             <tbody>
             <tr>
                 <th><span th:text="${user.username}"></span></th>
+                <th><span th:text="${user.email}"></span></th>
                 <th><span th:text="${user.password}"></span></th>
                 <th><span th:text="${user.role}"></span></th>
                 <th><span th:text="${user.active}"></span></th>
@@ -46,6 +48,14 @@
             <span class="input-group-text">New username</span>
             <input name="username" type="text" class="form-control" style='min-width: 10%; max-width: 40%'>
             <button type="submit" class="btn btn-outline-success" style="width: 50%">Save password</button>
+        </div>
+    </form>
+
+    <form th:action="@{updateUserEmail}" method="post">
+        <div class="input-group-sm p-3 mt-5 d-flex justify-content-center">
+            <span class="input-group-text">New email</span>
+            <input name="email" type="text" class="form-control" style='min-width: 10%; max-width: 40%'>
+            <button type="submit" class="btn btn-outline-success" style="width: 50%">Save email</button>
         </div>
     </form>
 
