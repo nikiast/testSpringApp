@@ -30,7 +30,7 @@
             <th scope="col">Email</th>
             <th scope="col">Password</th>
             <th scope="col">Role</th>
-            <th scope="col">Active</th>
+            <th scope="col">Is Lock</th>
             <th scope="col">Edit</th>
         </tr>
         </thead>
@@ -43,7 +43,7 @@
                     <th><span th:text="${user.email}"></span></th>
                     <th><span th:text="${user.password}"></span></th>
                     <th><span th:text="${user.role}"></span></th>
-                    <th><span th:text="${user.active}"></span></th>
+                    <th><span th:text="${user.lock}"></span></th>
                     <th><a th:href="@{/admin/{userId}(userId=${user.id})}">Edit</a></th>
                 </tr>
                 </tbody>

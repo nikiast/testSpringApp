@@ -26,7 +26,7 @@
                 <th><span th:text="${user.email}"></span></th>
                 <th><span th:text="${user.password}"></span></th>
                 <th><span th:text="${user.role}"></span></th>
-                <th><span th:text="${user.active}"></span></th>
+                <th><span th:text="${user.lock}"></span></th>
             </tr>
             </tbody>
         </div>
@@ -82,7 +82,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Are you sure what you want to delete the profile? this action cannot be canceled
+                    Are you sure what you want to delete the profile?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Cancel</button>

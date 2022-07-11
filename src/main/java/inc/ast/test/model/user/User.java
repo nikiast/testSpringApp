@@ -17,7 +17,7 @@ public class User implements UserDetails {
     private String username;
     private String email;
     private String password;
-    private boolean active;
+    private boolean isLock;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -25,11 +25,11 @@ public class User implements UserDetails {
     protected User() {
     }
 
-    public User(String username, String email, String password, Role role, boolean active) {
+    public User(String username, String email, String password, Role role, boolean isLock) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.active = active;
+        this.isLock = isLock;
         this.role = role;
     }
 
@@ -65,12 +65,12 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public boolean isActive() {
-        return active;
+    public boolean isLock() {
+        return isLock;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setLock(boolean lock) {
+        this.isLock = lock;
     }
 
     public Role getRole() {
@@ -100,7 +100,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return isLock;
     }
 
     @Override
@@ -110,7 +110,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isActive();
+        return isLock();
     }
 
     @Override
@@ -123,12 +123,12 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return isActive() == user.isActive() && Objects.equals(getId(), user.getId()) && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && getRole() == user.getRole();
+        return isLock() == user.isLock() && Objects.equals(getId(), user.getId()) && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && getRole() == user.getRole();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUsername(), getEmail(), getPassword(), isActive(), getRole());
+        return Objects.hash(getId(), getUsername(), getEmail(), getPassword(), isLock(), getRole());
     }
 
     @Override
@@ -139,7 +139,7 @@ public class User implements UserDetails {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
-                ", active=" + active +
+                ", active=" + isLock +
                 '}';
     }
 }

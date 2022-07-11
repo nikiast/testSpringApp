@@ -46,6 +46,11 @@ public class AdminController {
     @GetMapping("{id}")
     public String userEditForm(@PathVariable("id") User user, Model model) {
         model.addAttribute("user", user);
+        if(user.isLock()){
+            model.addAttribute("Active", true);
+        }else {
+            model.addAttribute("notActive", true);
+        }
         return "user/admin/userEdit";
     }
 
@@ -85,9 +90,16 @@ public class AdminController {
         return "redirect:/admin/{id}";
     }
 
-    @GetMapping("deleteUser/{id}")
-    public String userEditForm(@PathVariable("id") User user) {
-        user.setActive(false);
+    @GetMapping("lockUser/{id}")
+    public String lockUser(@PathVariable("id") User user) {
+        user.setLock(false);
+        userRepo.save(user);
+        return "redirect:/admin/{id}";
+    }
+
+    @GetMapping("unlockUser/{id}")
+    public String unlockUser(@PathVariable("id") User user) {
+        user.setLock(true);
         userRepo.save(user);
         return "redirect:/admin/{id}";
     }
