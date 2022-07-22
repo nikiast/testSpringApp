@@ -1,6 +1,5 @@
 package inc.ast.test.model.product;
 
-import inc.ast.test.model.user.Role;
 import inc.ast.test.model.user.User;
 
 import javax.persistence.*;

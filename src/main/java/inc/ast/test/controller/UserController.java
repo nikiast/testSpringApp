@@ -1,22 +1,22 @@
 package inc.ast.test.controller;
 
 import inc.ast.test.model.user.User;
-import inc.ast.test.repository.UserRepo;
 import inc.ast.test.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
-    private UserRepo userRepo;
-    private UserService userService;
+    private final UserService userService;
 
-    public UserController(UserRepo userRepo, UserService userService) {
-        this.userRepo = userRepo;
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
@@ -33,7 +33,7 @@ public class UserController {
                                  Model model) {
         if (userService.validationUsername(username)) {
             userFromSession.setUsername(username);
-            userRepo.save(userFromSession);
+            userService.userSave(userFromSession);
             SecurityContextHolder.clearContext();
         } else {
             model.addAttribute("usernameError", "usernameError!");
@@ -45,7 +45,7 @@ public class UserController {
     public String updateEmail(@AuthenticationPrincipal User userFromSession,
                               @RequestParam String email) {
         userFromSession.setPassword(email);
-        userRepo.save(userFromSession);
+        userService.userSave(userFromSession);
         SecurityContextHolder.clearContext();
         return "redirect:/user/profile";
     }
@@ -54,7 +54,7 @@ public class UserController {
     public String updatePassword(@AuthenticationPrincipal User userFromSession,
                                  @RequestParam String password) {
         userFromSession.setPassword(password);
-        userRepo.save(userFromSession);
+        userService.userSave(userFromSession);
         SecurityContextHolder.clearContext();
         return "redirect:/user/profile";
     }
@@ -62,7 +62,7 @@ public class UserController {
     @GetMapping("deleteUser")
     public String userEditForm(@AuthenticationPrincipal User userFromSession) {
         userFromSession.setActive(false);
-        userRepo.save(userFromSession);
+        userService.userSave(userFromSession);
         SecurityContextHolder.clearContext();
         return "redirect:/";
     }

@@ -3,6 +3,7 @@ package inc.ast.test.service;
 import inc.ast.test.model.product.Bet;
 import inc.ast.test.model.product.Product;
 import inc.ast.test.repository.BetRepo;
+import inc.ast.test.repository.ProductRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -11,10 +12,12 @@ import java.util.Map;
 
 @Service
 public class ProductService {
-    private BetRepo betRepo;
+    private final BetRepo betRepo;
+    private final ProductRepo productRepo;
 
-    public ProductService(BetRepo betRepo) {
+    public ProductService(BetRepo betRepo, ProductRepo productRepo) {
         this.betRepo = betRepo;
+        this.productRepo = productRepo;
     }
 
     public Map<Product, Integer> getProductPriceMap() {
@@ -34,5 +37,17 @@ public class ProductService {
             }
         }
         return priceProductMap;
+    }
+
+    public void productSave(Product product) {
+        productRepo.save(product);
+    }
+
+    public void betSave(Bet bet) {
+        betRepo.save(bet);
+    }
+
+    public List<Bet> findByProductId(Product product) {
+        return betRepo.findByProductId(product);
     }
 }

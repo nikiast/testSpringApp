@@ -16,11 +16,9 @@ import java.time.LocalDateTime;
 @Controller
 @RequestMapping("/registration")
 public class RegistrationController {
-    private UserRepo userRepo;
     private UserService userService;
 
-    public RegistrationController(UserRepo userRepo, UserService userService) {
-        this.userRepo = userRepo;
+    public RegistrationController(UserService userService) {
         this.userService = userService;
     }
 
@@ -38,7 +36,7 @@ public class RegistrationController {
         if (userService.validationUsername(username)) {
             LocalDateTime registrationTime = LocalDateTime.now();
             User newUser = new User(username, email, password, Role.USER, registrationTime, true);
-            userRepo.save(newUser);
+            userService.userSave(newUser);
             return "redirect:/login";
         } else {
             model.addAttribute("userExists", "User exists!");

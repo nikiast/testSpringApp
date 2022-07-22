@@ -100,10 +100,6 @@ public class User implements UserDetails {
         return registrationTime;
     }
 
-    public void setRegistrationTime(LocalDateTime registrationTime) {
-        this.registrationTime = registrationTime;
-    }
-
     @Override
     public boolean isAccountNonExpired() {
         return true;

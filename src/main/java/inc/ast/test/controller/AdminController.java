@@ -16,8 +16,8 @@ import java.util.stream.Stream;
 @PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/admin")
 public class AdminController {
-    private UserRepo userRepo;
-    private UserService userService;
+    private final UserRepo userRepo;
+    private final UserService userService;
 
     public AdminController(UserRepo userRepo, UserService userService) {
         this.userRepo = userRepo;
@@ -46,9 +46,9 @@ public class AdminController {
     @GetMapping("{id}")
     public String userEditForm(@PathVariable("id") User user, Model model) {
         model.addAttribute("user", user);
-        if(user.isActive()){
+        if (user.isActive()) {
             model.addAttribute("Active", true);
-        }else {
+        } else {
             model.addAttribute("notActive", true);
         }
         return "user/admin/userEdit";

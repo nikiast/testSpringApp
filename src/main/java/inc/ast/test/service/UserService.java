@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService implements UserDetailsService {
-    private UserRepo userRepo;
+    private final UserRepo userRepo;
 
     public UserService(UserRepo userRepo) {
         this.userRepo = userRepo;
@@ -20,19 +20,21 @@ public class UserService implements UserDetailsService {
         return userRepo.findByUsername(username);
     }
 
-
+    public void userSave(User user){
+        userRepo.save(user);
+    }
 
     public boolean validationUsername(String username) {
         User user = userRepo.findByUsername(username);
         return user == null;
     }
 
-    public boolean validationPassword(String username) {
-        User user = userRepo.findByUsername(username);
-        if (true) {
-            return user == null;
-        } else {
-            return user == null;
-        }
-    }
+//    public boolean validationPassword(String username) {
+//        User user = userRepo.findByUsername(username);
+//        if (true) {
+//            return user == null;
+//        } else {
+//            return user == null;
+//        }
+//    }
 }

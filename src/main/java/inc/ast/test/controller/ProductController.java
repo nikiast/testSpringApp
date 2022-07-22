@@ -7,6 +7,7 @@ import inc.ast.test.model.user.User;
 import inc.ast.test.repository.BetRepo;
 import inc.ast.test.repository.ProductRepo;
 import inc.ast.test.repository.UserRepo;
+import inc.ast.test.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,12 +23,10 @@ import java.util.stream.Stream;
 @Controller
 @RequestMapping("/product")
 public class ProductController {
-    ProductRepo productRepo;
-    BetRepo betRepo;
+    private final ProductService productService;
 
-    public ProductController(ProductRepo productRepo, BetRepo betRepo) {
-        this.productRepo = productRepo;
-        this.betRepo = betRepo;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping("/add")
@@ -48,15 +47,15 @@ public class ProductController {
             case "TABLET" -> product.setTypeOfProducts(TypeOfProduct.TABLET);
         }
         Bet bet = new Bet(user, product, price);
-        productRepo.save(product);
-        betRepo.save(bet);
+        productService.productSave(product);
+        productService.betSave(bet);
         return "redirect:/";
     }
 
     @GetMapping("{id}")
     public String priceForm(@PathVariable("id") Product product,
                             Model model) {
-        List<Bet> betList = betRepo.findByProductId(product);
+        List<Bet> betList = productService.findByProductId(product);
         model.addAttribute("betList", betList);
         model.addAttribute("product", product);
         return "product/priceForm";
@@ -67,7 +66,7 @@ public class ProductController {
                                   @PathVariable("id") Product product,
                                   @RequestParam Integer price) {
         Bet bet = new Bet(userFromSession, product, price);
-        betRepo.save(bet);
+        productService.betSave(bet);
         return "redirect:/product/{id}";
     }
 }
