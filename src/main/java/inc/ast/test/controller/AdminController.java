@@ -2,7 +2,6 @@ package inc.ast.test.controller;
 
 import inc.ast.test.model.user.Role;
 import inc.ast.test.model.user.User;
-import inc.ast.test.repository.UserRepo;
 import inc.ast.test.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -16,17 +15,15 @@ import java.util.stream.Stream;
 @PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/admin")
 public class AdminController {
-    private final UserRepo userRepo;
     private final UserService userService;
 
-    public AdminController(UserRepo userRepo, UserService userService) {
-        this.userRepo = userRepo;
+    public AdminController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping
     public String userList(Model model) {
-        Iterable<User> userList = userRepo.findAll();
+        Iterable<User> userList = userService.findAllUser();
         model.addAttribute("users", userList);
         return "user/admin/userList";
     }
@@ -35,9 +32,9 @@ public class AdminController {
     public String filterByUsername(@RequestParam String filter, Model model) {
         List<User> users;
         if (filter != null && !filter.isEmpty()) {
-            users = Stream.of(userRepo.findByUsername(filter)).toList();
+            users = Stream.of(userService.findUserByUsername(filter)).toList();
         } else {
-            users = userRepo.findAll();
+            users = userService.findAllUser();
         }
         model.addAttribute("users", users);
         return "user/admin/userList";
@@ -58,7 +55,7 @@ public class AdminController {
     public String updateUsername(@PathVariable("id") User user, @RequestParam String username, Model model) {
         if (userService.validationUsername(username)) {
             user.setUsername(username);
-            userRepo.save(user);
+            userService.userSave(user);
         } else {
             model.addAttribute("userExists", "User exists!");
         }
@@ -68,14 +65,14 @@ public class AdminController {
     @PostMapping("updateEmail/{id}")
     public String updateEmail(@PathVariable("id") User user, @RequestParam String email, Model model) {
         user.setEmail(email);
-        userRepo.save(user);
+        userService.userSave(user);
         return "redirect:/admin/{id}";
     }
 
     @PostMapping("updatePassword/{id}")
     public String updatePassword(@PathVariable("id") User user, @RequestParam String password) {
         user.setPassword(password);
-        userRepo.save(user);
+        userService.userSave(user);
         return "redirect:/admin/{id}";
     }
 
@@ -86,21 +83,21 @@ public class AdminController {
             case "PROVIDER" -> user.setRole(Role.PROVIDER);
             case "ADMIN" -> user.setRole(Role.ADMIN);
         }
-        userRepo.save(user);
+        userService.userSave(user);
         return "redirect:/admin/{id}";
     }
 
     @GetMapping("lockUser/{id}")
     public String lockUser(@PathVariable("id") User user) {
         user.setActive(false);
-        userRepo.save(user);
+        userService.userSave(user);
         return "redirect:/admin/{id}";
     }
 
     @GetMapping("unlockUser/{id}")
     public String unlockUser(@PathVariable("id") User user) {
         user.setActive(true);
-        userRepo.save(user);
+        userService.userSave(user);
         return "redirect:/admin/{id}";
     }
 }

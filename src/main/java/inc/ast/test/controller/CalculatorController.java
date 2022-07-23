@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/calc")
 public class CalculatorController {
-
     @GetMapping
     public String calculator() {
         return "calculator/calc";

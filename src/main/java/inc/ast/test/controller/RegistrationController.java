@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Controller
 @RequestMapping("/registration")
 public class RegistrationController {
-    private UserService userService;
+    private final UserService userService;
 
     public RegistrationController(UserService userService) {
         this.userService = userService;
