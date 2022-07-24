@@ -4,7 +4,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
@@ -19,7 +18,7 @@ public class User implements UserDetails {
     private String email;
     private String password;
     private boolean active;
-    private LocalDateTime registrationTime;
+    private String registrationTime;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -27,7 +26,7 @@ public class User implements UserDetails {
     protected User() {
     }
 
-    public User(String username, String email, String password, Role role, LocalDateTime registrationTime, boolean active) {
+    public User(String username, String email, String password, Role role, String registrationTime, boolean active) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -96,7 +95,7 @@ public class User implements UserDetails {
         return this.role == Role.ADMIN;
     }
 
-    public LocalDateTime getRegistrationTime() {
+    public String getRegistrationTime() {
         return registrationTime;
     }
 

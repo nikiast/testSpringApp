@@ -6,6 +6,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -22,21 +25,27 @@ public class UserService implements UserDetailsService {
         return userRepo.findByUsername(username);
     }
 
-    public void userSave(User user){
+    public void userSave(User user) {
         userRepo.save(user);
     }
 
-    public List<User> findAllUser(){
+    public List<User> findAllUser() {
         return userRepo.findAll();
     }
 
-    public User findUserByUsername(String username){
+    public User findUserByUsername(String username) {
         return userRepo.findByUsername(username);
     }
 
     public boolean validationUsername(String username) {
         User user = userRepo.findByUsername(username);
         return user == null;
+    }
+
+    public String formatDateTimeNow() {
+        LocalDateTime registrationTime = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+        return registrationTime.format(format);
     }
 
 //    public boolean validationPassword(String username) {
