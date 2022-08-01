@@ -12,6 +12,7 @@ public class Product implements Serializable {
     private Long id;
     private String name;
     private String description;
+    private String createdTime;
 
     @Enumerated(EnumType.STRING)
     private TypeOfProduct typeOfProducts;
@@ -67,27 +68,36 @@ public class Product implements Serializable {
         this.prices = prices;
     }
 
+    public String getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(String createdTime) {
+        this.createdTime = createdTime;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(getId(), product.getId()) && Objects.equals(getName(), product.getName()) && Objects.equals(getDescription(), product.getDescription()) && getTypeOfProducts() == product.getTypeOfProducts() && Objects.equals(getPrices(), product.getPrices());
+        return Objects.equals(getId(), product.getId()) && Objects.equals(getName(), product.getName()) && Objects.equals(getDescription(), product.getDescription()) && Objects.equals(getCreatedTime(), product.getCreatedTime()) && getTypeOfProducts() == product.getTypeOfProducts() && Objects.equals(getPrices(), product.getPrices());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getDescription(), getTypeOfProducts(), getPrices());
+        return Objects.hash(getId(), getName(), getDescription(), getCreatedTime(), getTypeOfProducts(), getPrices());
     }
 
     @Override
-    public String
-    toString() {
+    public String toString() {
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", createTime='" + createdTime + '\'' +
                 ", typeOfProducts=" + typeOfProducts +
+                ", prices=" + prices +
                 '}';
     }
 }

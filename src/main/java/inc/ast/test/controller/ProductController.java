@@ -22,17 +22,16 @@ public class ProductController {
     }
 
     @GetMapping("/add")
-    public String add() {
+    public String add(@ModelAttribute("product") Product product) {
         return "product/addProduct";
     }
 
     @PostMapping("/add")
     public String add(@AuthenticationPrincipal User user,
-                      @RequestParam(name = "name") String name,
+                      @ModelAttribute ("product") Product product,
                       @RequestParam(name = "price") Integer price,
-                      @RequestParam(name = "description") String description,
                       @RequestParam(name = "role") String role) {
-        Product product = new Product(name, description);
+        product.setCreatedTime(productService.formatDateTimeNow());
         switch (role) {
             case "PC" -> product.setTypeOfProducts(TypeOfProduct.PC);
             case "PHONE" -> product.setTypeOfProducts(TypeOfProduct.PHONE);

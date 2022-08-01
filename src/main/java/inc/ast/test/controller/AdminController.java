@@ -8,9 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Controller
 @PreAuthorize("hasAuthority('ADMIN')")
@@ -35,8 +33,7 @@ public class AdminController {
             Optional<User> userFromDb = userService.findUserByUsername(filter);
             userFromDb.ifPresent(user -> model.addAttribute("users", user));
         } else {
-            List<User> users = userService.findAllUser();
-            model.addAttribute("users", users);
+            model.addAttribute("users", userService.findAllUser());
         }
         return "user/admin/userList";
     }

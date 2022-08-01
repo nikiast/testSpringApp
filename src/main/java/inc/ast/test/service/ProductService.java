@@ -5,7 +5,10 @@ import inc.ast.test.model.product.Product;
 import inc.ast.test.repository.BetRepo;
 import inc.ast.test.repository.ProductRepo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,15 +42,23 @@ public class ProductService {
         return priceProductMap;
     }
 
+    @Transactional
     public void productSave(Product product) {
         productRepo.save(product);
     }
 
+    @Transactional
     public void betSave(Bet bet) {
         betRepo.save(bet);
     }
 
     public List<Bet> findByProductId(Product product) {
         return betRepo.findByProductId(product);
+    }
+
+    public String formatDateTimeNow() {
+        LocalDateTime registrationTime = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+        return registrationTime.format(format);
     }
 }

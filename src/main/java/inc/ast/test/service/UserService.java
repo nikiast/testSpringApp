@@ -21,7 +21,6 @@ public class UserService implements UserDetailsService {
     private final UserRepo userRepo;
     private final UserValidator userValidator;
 
-
     public UserService(UserRepo userRepo, UserValidator userValidator) {
         this.userRepo = userRepo;
         this.userValidator = userValidator;

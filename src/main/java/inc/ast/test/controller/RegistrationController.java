@@ -25,7 +25,7 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String addUser(@ModelAttribute("user") User user,
+    public String createUser(@ModelAttribute("user") User user,
                           BindingResult bindingResult) {
         user.setRole(Role.USER);
         user.setRegistrationTime(userService.formatDateTimeNow());
@@ -37,15 +37,4 @@ public class RegistrationController {
         userService.userSave(user);
         return "redirect:/login";
     }
-
-//        if (userService.validationUsername(username)) {
-//
-//            User newUser = new User(username, email, password, Role.USER, userService.formatDateTimeNow(), true);
-//            userService.userSave(newUser);
-//            return "redirect:/login";
-//        } else {
-//            model.addAttribute("userExists", "User exists!");
-//            return "/security/registration";
-//        }
-
 }
