@@ -9,7 +9,7 @@
 <div th:insert="fragments/header :: header"></div>
 <div class="p-5 text-center">Login</div>
 <div class="text-danger mb-4 d-flex justify-content-center" th:if="${param.error}">
-    Invalid username and password.
+    Invalid username or password.
 </div>
 <div class="text-success mb-4 d-flex justify-content-center" th:if="${param.logout}">
     You have been logged out.

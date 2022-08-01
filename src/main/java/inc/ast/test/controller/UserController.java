@@ -27,24 +27,24 @@ public class UserController {
         return "user/profile";
     }
 
-    @PostMapping("updateUserUsername")
-    public String updateUsername(@AuthenticationPrincipal User userFromSession,
-                                 @RequestParam String username,
-                                 Model model) {
-        if (userService.validationUsername(username)) {
-            userFromSession.setUsername(username);
-            userService.userSave(userFromSession);
-            SecurityContextHolder.clearContext();
-        } else {
-            model.addAttribute("usernameError", "usernameError!");
-        }
-        return "redirect:/user/profile";
-    }
+//    @PostMapping("updateUserUsername")
+//    public String updateUsername(@AuthenticationPrincipal User userFromSession,
+//                                 @RequestParam String username,
+//                                 Model model) {
+//        if (userService.validationUsername(username)) {
+//            userFromSession.setUsername(username);
+//            userService.userSave(userFromSession);
+//            SecurityContextHolder.clearContext();
+//        } else {
+//            model.addAttribute("usernameError", "usernameError!");
+//        }
+//        return "redirect:/user/profile";
+//    }
 
     @PostMapping("updateUserEmail")
     public String updateEmail(@AuthenticationPrincipal User userFromSession,
                               @RequestParam String email) {
-        userFromSession.setPassword(email);
+        userFromSession.setEmail(email);
         userService.userSave(userFromSession);
         SecurityContextHolder.clearContext();
         return "redirect:/user/profile";

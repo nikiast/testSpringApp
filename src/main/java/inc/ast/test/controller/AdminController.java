@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Controller
@@ -30,13 +31,13 @@ public class AdminController {
 
     @PostMapping("filter")
     public String filterByUsername(@RequestParam String filter, Model model) {
-        List<User> users;
         if (filter != null && !filter.isEmpty()) {
-            users = Stream.of(userService.findUserByUsername(filter)).toList();
+            Optional<User> userFromDb = userService.findUserByUsername(filter);
+            userFromDb.ifPresent(user -> model.addAttribute("users", user));
         } else {
-            users = userService.findAllUser();
+            List<User> users = userService.findAllUser();
+            model.addAttribute("users", users);
         }
-        model.addAttribute("users", users);
         return "user/admin/userList";
     }
 
@@ -53,11 +54,11 @@ public class AdminController {
 
     @PostMapping("updateUsername/{id}")
     public String updateUsername(@PathVariable("id") User user, @RequestParam String username, Model model) {
-        if (userService.validationUsername(username)) {
+        if (userService.usernameValidate(username)) {
             user.setUsername(username);
             userService.userSave(user);
         } else {
-            model.addAttribute("userExists", "User exists!");
+            model.addAttribute("usernameExists", "Username exists!");
         }
         return "redirect:/admin/{id}";
     }

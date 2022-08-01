@@ -8,26 +8,36 @@
 <body>
 <div th:insert="fragments/header :: header"></div>
 <div class="p-5 text-center">Registration</div>
-<div class="text-danger mb-4 d-flex justify-content-center" th:if="${userExists}">
-    <span th:text="${userExists}"></span>
-</div>
-<form th:action="@{/registration}" method="post">
+<form th:action="@{/registration}" method="post" th:object="${user}">
     <div class="d-flex flex-column">
-        <div class="input-group input-group-sm mb-4 d-flex justify-content-center">
-            <span class="input-group-text" id="inputGroup-sizing-sm1">Username</span>
-            <input name="username" type="text" class="form-control" style='max-width: 15%'
-                   aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm1" autofocus>
+        <div class="mb-4">
+            <div class="input-group input-group-sm d-flex justify-content-center">
+                <span class="input-group-text" id="Username">Username</span>
+                <input name="username" type="text" th:field="*{username}" class="form-control" style='max-width: 15%'
+                       aria-label="Sizing example input" aria-describedby="Username" autofocus>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+            </div>
         </div>
-        <div class="input-group input-group-sm mb-4 d-flex justify-content-center">
-            <span class="input-group-text" id="inputGroup-sizing-sm2">Email</span>
-            <input name="email" type="text" class="form-control" style='max-width: 15%'
-                   aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm2">
+
+        <div class="mb-4">
+            <div class="input-group input-group-sm d-flex justify-content-center">
+                <span class="input-group-text" id="Email">Email</span>
+                <input name="email" type="text" th:field="*{email}" class="form-control" style='max-width: 15%'
+                       aria-label="Sizing example input" aria-describedby="Email">
+            </div>
         </div>
-        <div class="input-group input-group-sm mb-4 d-flex justify-content-center">
-            <span class="input-group-text" id="inputGroup-sizing-sm3">Password</span>
-            <input name="password" type="password" class="form-control" style='max-width: 15%'
-                   aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm3">
+
+        <div class="mb-4">
+            <div class="input-group input-group-sm d-flex justify-content-center">
+                <span class="input-group-text" id="Password">Password</span>
+                <input name="password" type="password" th:field="*{password}" class="form-control"
+                       style='max-width: 15%'
+                       aria-label="Sizing example input" aria-describedby="Password">
+            </div>
         </div>
+
         <div class="text-center p-3">
             <button type="submit" class="btn btn-outline-success" style="width: 10%">Sign up</button>
         </div>

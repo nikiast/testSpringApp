@@ -4,11 +4,11 @@ import inc.ast.test.model.user.Role;
 import inc.ast.test.model.user.User;
 import inc.ast.test.service.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/registration")
@@ -20,24 +20,32 @@ public class RegistrationController {
     }
 
     @GetMapping
-    public String registration() {
+    public String registration(@ModelAttribute("user") User user) {
         return "/security/registration";
     }
 
     @PostMapping
-    public String addUser(@RequestParam(name = "username") String username,
-                          @RequestParam(name = "email") String email,
-                          @RequestParam(name = "password") String password,
-                          Model model) {
-
-        if (userService.validationUsername(username)) {
-
-            User newUser = new User(username, email, password, Role.USER, userService.formatDateTimeNow(), true);
-            userService.userSave(newUser);
-            return "redirect:/login";
-        } else {
-            model.addAttribute("userExists", "User exists!");
+    public String addUser(@ModelAttribute("user") User user,
+                          BindingResult bindingResult) {
+        user.setRole(Role.USER);
+        user.setRegistrationTime(userService.formatDateTimeNow());
+        user.setActive(true);
+        userService.usernameValidate(user, bindingResult);
+        if (bindingResult.hasErrors()) {
             return "/security/registration";
         }
+        userService.userSave(user);
+        return "redirect:/login";
     }
+
+//        if (userService.validationUsername(username)) {
+//
+//            User newUser = new User(username, email, password, Role.USER, userService.formatDateTimeNow(), true);
+//            userService.userSave(newUser);
+//            return "redirect:/login";
+//        } else {
+//            model.addAttribute("userExists", "User exists!");
+//            return "/security/registration";
+//        }
+
 }

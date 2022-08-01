@@ -4,21 +4,13 @@ import inc.ast.test.model.product.Bet;
 import inc.ast.test.model.product.Product;
 import inc.ast.test.model.product.TypeOfProduct;
 import inc.ast.test.model.user.User;
-import inc.ast.test.repository.BetRepo;
-import inc.ast.test.repository.ProductRepo;
-import inc.ast.test.repository.UserRepo;
 import inc.ast.test.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/product")

@@ -17,7 +17,7 @@ public class User implements UserDetails {
     private String username;
     private String email;
     private String password;
-    private boolean active;
+    private Boolean active;
     private String registrationTime;
 
     @Enumerated(EnumType.STRING)
@@ -26,7 +26,7 @@ public class User implements UserDetails {
     protected User() {
     }
 
-    public User(String username, String email, String password, Role role, String registrationTime, boolean active) {
+    public User(String username, String email, String password, Role role, String registrationTime, Boolean active) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -67,11 +67,11 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public boolean isActive() {
+    public Boolean isActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 
@@ -97,6 +97,10 @@ public class User implements UserDetails {
 
     public String getRegistrationTime() {
         return registrationTime;
+    }
+
+    public void setRegistrationTime(String registrationTime) {
+        this.registrationTime = registrationTime;
     }
 
     @Override

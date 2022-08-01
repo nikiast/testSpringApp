@@ -41,6 +41,9 @@
         </div>
     </table>
 </div>
+<div class="text-danger mb-4 d-flex justify-content-center" th:if="${usernameExists}">
+    <span th:text="${usernameExists}"></span>
+</div>
 
 <div class="p-3" th:if="${Active}">
     <div class=" mt-4 d-flex justify-content-center align-items-center">

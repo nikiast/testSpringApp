@@ -22,7 +22,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'mysql:mysql-connector-java:8.0.29'
 	implementation 'org.springframework.session:spring-session-jdbc:2.7.0'
-	implementation 'org.hibernate.validator:hibernate-validator:7.0.4.Final'
+	implementation 'org.hibernate.validator:hibernate-validator:6.2.3.Final'
 
 	implementation 'org.springframework.security:spring-security-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
