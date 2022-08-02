@@ -45,7 +45,7 @@
     <span th:text="${usernameExists}"></span>
 </div>
 
-<div class="p-3" th:if="${Active}">
+<div class="p-3" th:if="${Active}" th:object="${user}">
     <div class=" mt-4 d-flex justify-content-center align-items-center">
         <form th:action="@{updateUsername/{userId}(userId=${user.id})}" method="post">
             <div class="input-group-sm p-3 d-flex justify-content-center">
@@ -53,6 +53,9 @@
                 <input name="username" type="text" class="form-control" style='min-width: 10%; max-width: 40%'
                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm1">
                 <button type="submit" class="btn btn-outline-success" style="width: 50%">Save username</button>
+                <div class="d-flex justify-content-center">
+                    <div class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                </div>
             </div>
         </form>
 
@@ -62,6 +65,9 @@
                 <input name="password" type="text" class="form-control" style='min-width: 10%; max-width: 40%'
                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm2">
                 <button type="submit" class="btn btn-outline-success" style="width: 50%">Save password</button>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
             </div>
         </form>
     </div>

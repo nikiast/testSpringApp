@@ -3,14 +3,11 @@ package inc.ast.test.controller;
 import inc.ast.test.model.user.User;
 import inc.ast.test.service.UserService;
 import inc.ast.test.util.UserValidator;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/user")
@@ -24,49 +21,66 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String userSettings(@AuthenticationPrincipal User userFromSession,
-                               Model model) {
+    public String userSettings(@ModelAttribute("userFromSession") User userFromSession, Model model) {
         model.addAttribute("user", userFromSession);
         return "user/profile";
     }
 
     @PostMapping("updateUserUsername")
-    public String updateUsername(@AuthenticationPrincipal User userFromSession,
-                                 @RequestParam String username,
-                                 Model model) {
-        if (userValidator.usernameValidate(username)) {
-            userFromSession.setUsername(username);
-            userService.userSave(userFromSession);
-            SecurityContextHolder.clearContext();
-        } else {
-            model.addAttribute("usernameError", "usernameError!");
+    public String updateUsername(@ModelAttribute("userFromSession") User userFromSession,
+                                 BindingResult bindingResult,
+                                 @RequestParam String username) {
+        userValidator.usernameValidate(userFromSession, bindingResult);
+        if(bindingResult.hasErrors()){
+            return "redirect:/user/profile";
         }
+        userFromSession.setUsername(username);
+        userService.userSave(userFromSession);
+        SecurityContextHolder.clearContext();
         return "redirect:/user/profile";
     }
 
     @PostMapping("updateUserEmail")
-    public String updateEmail(@AuthenticationPrincipal User userFromSession,
+    public String updateEmail(@ModelAttribute("userFromSession") User userFromSession,
+                              BindingResult bindingResult,
                               @RequestParam String email) {
+        userValidator.emailValidate(userFromSession, bindingResult);
         userFromSession.setEmail(email);
+//        if(bindingResult.hasErrors()){
+//            return "redirect:/user/profile";
+//        }
         userService.userSave(userFromSession);
         SecurityContextHolder.clearContext();
         return "redirect:/user/profile";
     }
 
     @PostMapping("updateUserPassword")
-    public String updatePassword(@AuthenticationPrincipal User userFromSession,
+    public String updatePassword(@ModelAttribute("userFromSession") User userFromSession,
+                                 BindingResult bindingResult,
                                  @RequestParam String password) {
+        userValidator.passwordValidate(userFromSession, bindingResult);
         userFromSession.setPassword(password);
+        if(bindingResult.hasErrors()){
+            return "redirect:/user/profile";
+        }
         userService.userSave(userFromSession);
         SecurityContextHolder.clearContext();
         return "redirect:/user/profile";
     }
 
     @GetMapping("deleteUser")
-    public String userEditForm(@AuthenticationPrincipal User userFromSession) {
+    public String userEditForm(@ModelAttribute("userFromSession") User userFromSession,
+                               BindingResult bindingResult) {
         userFromSession.setActive(false);
         userService.userSave(userFromSession);
         SecurityContextHolder.clearContext();
         return "redirect:/";
+    }
+
+    @ModelAttribute("userFromSession")
+    public User getUserFromSession(){
+        return (User) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
     }
 }

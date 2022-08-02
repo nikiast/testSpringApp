@@ -18,6 +18,7 @@ import java.util.Optional;
 public class AdminController {
     private final UserService userService;
     private final UserValidator userValidator;
+    private User user;
 
     public AdminController(UserService userService, UserValidator userValidator) {
         this.userService = userService;
@@ -44,6 +45,7 @@ public class AdminController {
 
     @GetMapping("{id}")
     public String userEditForm(@PathVariable("id") User user, Model model) {
+        this.user = user;
         model.addAttribute("user", user);
         if (user.isActive()) {
             model.addAttribute("Active", true);
@@ -54,20 +56,22 @@ public class AdminController {
     }
 
     @PostMapping("updateUsername/{id}")
-    public String updateUsername(@PathVariable("id") User user, @RequestParam String username, Model model) {
-        if (userValidator.usernameValidate(username)) {
-            user.setUsername(username);
-            userService.userSave(user);
-        } else {
-            model.addAttribute("usernameExists", "Username exists!");
+    public String updateUsername(@ModelAttribute("user") User user, BindingResult bindingResult) {
+        userValidator.usernameValidate(user,bindingResult);
+        if (bindingResult.hasErrors()){
+            return "redirect:/admin/{id}";
         }
+        userService.userSave(user);
         return "redirect:/admin/{id}";
     }
 
 
     @PostMapping("updatePassword/{id}")
-    public String updatePassword(@PathVariable("id") User user, @RequestParam String password) {
-        user.setPassword(password);
+    public String updatePassword(@ModelAttribute("user") User user, BindingResult bindingResult) {
+        userValidator.passwordValidate(user,bindingResult);
+        if (bindingResult.hasErrors()){
+            return "redirect:/admin/{id}";
+        }
         userService.userSave(user);
         return "redirect:/admin/{id}";
     }
@@ -84,16 +88,21 @@ public class AdminController {
     }
 
     @GetMapping("lockUser/{id}")
-    public String lockUser(@PathVariable("id") User user) {
+    public String lockUser(@ModelAttribute("user") User user) {
         user.setActive(false);
         userService.userSave(user);
         return "redirect:/admin/{id}";
     }
 
     @GetMapping("unlockUser/{id}")
-    public String unlockUser(@PathVariable("id") User user) {
+    public String unlockUser(@ModelAttribute("user") User user) {
         user.setActive(true);
         userService.userSave(user);
         return "redirect:/admin/{id}";
+    }
+
+    @ModelAttribute("user")
+    public User getUserFromSession(){
+        return user;
     }
 }
