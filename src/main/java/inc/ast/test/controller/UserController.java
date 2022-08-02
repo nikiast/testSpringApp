@@ -2,6 +2,7 @@ package inc.ast.test.controller;
 
 import inc.ast.test.model.user.User;
 import inc.ast.test.service.UserService;
+import inc.ast.test.util.UserValidator;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
+    private final UserValidator userValidator;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserValidator userValidator) {
         this.userService = userService;
+        this.userValidator = userValidator;
     }
 
     @GetMapping("/profile")
@@ -31,7 +34,7 @@ public class UserController {
     public String updateUsername(@AuthenticationPrincipal User userFromSession,
                                  @RequestParam String username,
                                  Model model) {
-        if (userService.usernameValidate(username)) {
+        if (userValidator.usernameValidate(username)) {
             userFromSession.setUsername(username);
             userService.userSave(userFromSession);
             SecurityContextHolder.clearContext();

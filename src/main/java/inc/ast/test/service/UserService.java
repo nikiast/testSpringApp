@@ -55,20 +55,7 @@ public class UserService implements UserDetailsService {
         return registrationTime.format(format);
     }
 
-    public void usernameValidate(User user, Errors errors) {
+    public void regUserValidate(User user, Errors errors) {
         userValidator.validate(user, errors);
     }
-
-    public boolean usernameValidate(String username) {
-        return userRepo.findByUsername(username).isEmpty();
-    }
-
-//    public boolean validationPassword(String username) {
-//        User user = userRepo.findByUsername(username);
-//        if (true) {
-//            return user == null;
-//        } else {
-//            return user == null;
-//        }
-//    }
 }

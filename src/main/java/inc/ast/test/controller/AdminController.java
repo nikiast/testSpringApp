@@ -3,9 +3,11 @@ package inc.ast.test.controller;
 import inc.ast.test.model.user.Role;
 import inc.ast.test.model.user.User;
 import inc.ast.test.service.UserService;
+import inc.ast.test.util.UserValidator;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -15,9 +17,11 @@ import java.util.Optional;
 @RequestMapping("/admin")
 public class AdminController {
     private final UserService userService;
+    private final UserValidator userValidator;
 
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, UserValidator userValidator) {
         this.userService = userService;
+        this.userValidator = userValidator;
     }
 
     @GetMapping
@@ -51,7 +55,7 @@ public class AdminController {
 
     @PostMapping("updateUsername/{id}")
     public String updateUsername(@PathVariable("id") User user, @RequestParam String username, Model model) {
-        if (userService.usernameValidate(username)) {
+        if (userValidator.usernameValidate(username)) {
             user.setUsername(username);
             userService.userSave(user);
         } else {
@@ -60,12 +64,6 @@ public class AdminController {
         return "redirect:/admin/{id}";
     }
 
-    @PostMapping("updateEmail/{id}")
-    public String updateEmail(@PathVariable("id") User user, @RequestParam String email, Model model) {
-        user.setEmail(email);
-        userService.userSave(user);
-        return "redirect:/admin/{id}";
-    }
 
     @PostMapping("updatePassword/{id}")
     public String updatePassword(@PathVariable("id") User user, @RequestParam String password) {
