@@ -21,7 +21,6 @@
         <tr>
             <th scope="col">Username</th>
             <th scope="col">Email</th>
-            <th scope="col">Password</th>
             <th scope="col">Role</th>
             <th scope="col">Registration Time</th>
             <th scope="col">Active</th>
@@ -32,7 +31,6 @@
             <tr>
                 <th><span th:text="${user.username}"></span></th>
                 <th><span th:text="${user.email}"></span></th>
-                <th><span th:text="${user.password}"></span></th>
                 <th><span th:text="${user.role}"></span></th>
                 <th><span th:text="${user.registrationTime}"></span></th>
                 <th><span th:text="${user.active}"></span></th>
@@ -41,11 +39,7 @@
         </div>
     </table>
 </div>
-<div class="text-danger mb-4 d-flex justify-content-center" th:if="${usernameExists}">
-    <span th:text="${usernameExists}"></span>
-</div>
-
-<div class="p-3" th:if="${Active}" th:object="${user}">
+<div class="p-3" th:if="${Active}" th:object="${editingUserByAdmin}">
     <div class=" mt-4 d-flex justify-content-center align-items-center">
         <form th:action="@{updateUsername/{userId}(userId=${user.id})}" method="post">
             <div class="input-group-sm p-3 d-flex justify-content-center">
@@ -62,7 +56,7 @@
         <form th:action="@{updatePassword/{userId}(userId=${user.id})}" method="post">
             <div class="input-group-sm p-3 d-flex justify-content-center">
                 <span class="input-group-text" id="inputGroup-sizing-sm2">New password</span>
-                <input name="password" type="text" class="form-control" style='min-width: 10%; max-width: 40%'
+                <input name="password" type="password" class="form-control" style='min-width: 10%; max-width: 40%'
                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm2">
                 <button type="submit" class="btn btn-outline-success" style="width: 50%">Save password</button>
             </div>

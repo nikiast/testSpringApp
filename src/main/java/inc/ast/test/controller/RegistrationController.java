@@ -1,6 +1,5 @@
 package inc.ast.test.controller;
 
-import inc.ast.test.model.user.Role;
 import inc.ast.test.model.user.User;
 import inc.ast.test.service.UserService;
 import inc.ast.test.util.UserValidator;
@@ -17,10 +16,11 @@ import javax.validation.Valid;
 @RequestMapping("/registration")
 public class RegistrationController {
     private final UserService userService;
+    private final UserValidator userValidator;
 
-
-    public RegistrationController(UserService userService, UserValidator userValidator) {
+    public RegistrationController(UserService userService, UserValidator userValidator1) {
         this.userService = userService;
+        this.userValidator = userValidator1;
     }
 
     @GetMapping
@@ -31,14 +31,13 @@ public class RegistrationController {
     @PostMapping
     public String createUser(@ModelAttribute("user") @Valid User user,
                              BindingResult bindingResult) {
-        user.setRole(Role.USER);
-        user.setRegistrationTime(userService.formatDateTimeNow());
-        user.setActive(true);
-        userService.regUserValidate(user, bindingResult);
+        User createdUser = userService.createUser(user);
+        userValidator.validate(createdUser, bindingResult);
         if (bindingResult.hasErrors()) {
             return "/security/registration";
         }
-        userService.userSave(user);
+        userService.encodePassword(user);
+        userService.saveUser(createdUser);
         return "redirect:/login";
     }
 }

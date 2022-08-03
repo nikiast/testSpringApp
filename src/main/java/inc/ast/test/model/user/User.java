@@ -17,6 +17,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @NotEmpty(message = "Email should be not empty")
     @Size(min = 1, max = 15, message = "Username should be between 1 and 15 symbol")
     private String username;
@@ -26,13 +27,9 @@ public class User implements UserDetails {
     private String email;
 
     @NotEmpty(message = "Password should be not empty")
-    @Pattern(regexp = "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[\\w]{6,}", message = "This password is not valid")
     private String password;
-
     private Boolean active;
-
     private String registrationTime;
-
     @Enumerated(EnumType.STRING)
     private Role role;
 

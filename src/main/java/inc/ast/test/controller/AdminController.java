@@ -48,6 +48,7 @@ public class AdminController {
     public String userEditForm(@PathVariable("id") User user, Model model) {
         this.user = user;
         model.addAttribute("user", user);
+        model.addAttribute("editingUserByAdmin", user);
         if (user.isActive()) {
             model.addAttribute("Active", true);
         } else {
@@ -57,21 +58,23 @@ public class AdminController {
     }
 
     @PostMapping("updateUsername/{id}")
-    public String updateUsername(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
+    public String updateUsername(@ModelAttribute("editingUserByAdmin") @Valid User user, BindingResult bindingResult) {
         userValidator.usernameValidate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             return "redirect:/admin/{id}";
         }
-        userService.userSave(user);
+        userService.saveUser(user);
         return "redirect:/admin/{id}";
     }
 
     @PostMapping("updatePassword/{id}")
-    public String updatePassword(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
+    public String updatePassword(@ModelAttribute("editingUserByAdmin") @Valid User user, BindingResult bindingResult) {
+        userValidator.passwordValidate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             return "redirect:/admin/{id}";
         }
-        userService.userSave(user);
+        userService.encodePassword(user);
+        userService.saveUser(user);
         return "redirect:/admin/{id}";
     }
 
@@ -82,25 +85,25 @@ public class AdminController {
             case "PROVIDER" -> user.setRole(Role.PROVIDER);
             case "ADMIN" -> user.setRole(Role.ADMIN);
         }
-        userService.userSave(user);
+        userService.saveUser(user);
         return "redirect:/admin/{id}";
     }
 
     @GetMapping("lockUser/{id}")
-    public String lockUser(@ModelAttribute("user") @Valid User user) {
+    public String lockUser(@ModelAttribute("editingUserByAdmin") @Valid User user) {
         user.setActive(false);
-        userService.userSave(user);
+        userService.saveUser(user);
         return "redirect:/admin/{id}";
     }
 
     @GetMapping("unlockUser/{id}")
-    public String unlockUser(@ModelAttribute("user") @Valid User user) {
+    public String unlockUser(@ModelAttribute("editingUserByAdmin") @Valid User user) {
         user.setActive(true);
-        userService.userSave(user);
+        userService.saveUser(user);
         return "redirect:/admin/{id}";
     }
 
-    @ModelAttribute("user")
+    @ModelAttribute("editingUserByAdmin")
     public User getUserFrom() {
         return user;
     }

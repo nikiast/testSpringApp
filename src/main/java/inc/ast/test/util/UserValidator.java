@@ -28,7 +28,7 @@ public class UserValidator implements Validator {
         User user = (User) target;
         usernameValidate(user, errors);
         emailValidate(user, errors);
-//        passwordValidate(user, errors);
+        passwordValidate(user, errors);
     }
 
     public void usernameValidate(User user, Errors errors) {
@@ -43,15 +43,11 @@ public class UserValidator implements Validator {
         }
     }
 
-//    public void passwordValidate(User user, Errors errors) {
-//        if (!passwordRegExpValidate(user.getPassword())) {
-//            errors.rejectValue("password", "", "This password is not valid");
-//        }
-//    }
-//
-//    public boolean usernameValidate(String username) {
-//        return userRepo.findByUsername(username).isEmpty() && !username.equals("");
-//    }
+    public void passwordValidate(User user, Errors errors) {
+        if (!passwordRegExpValidate(user.getPassword())) {
+            errors.rejectValue("password", "", "This password is not valid");
+        }
+    }
 
     private boolean passwordRegExpValidate(String password) {
         return Pattern.matches(PASSWORD_VALID, password);
