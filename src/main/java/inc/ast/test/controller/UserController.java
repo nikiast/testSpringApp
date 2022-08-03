@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -27,11 +29,11 @@ public class UserController {
     }
 
     @PostMapping("updateUserUsername")
-    public String updateUsername(@ModelAttribute("userFromSession") User userFromSession,
+    public String updateUsername(@ModelAttribute("userFromSession") @Valid User userFromSession,
                                  BindingResult bindingResult,
                                  @RequestParam String username) {
         userValidator.usernameValidate(userFromSession, bindingResult);
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "redirect:/user/profile";
         }
         userFromSession.setUsername(username);
@@ -41,26 +43,25 @@ public class UserController {
     }
 
     @PostMapping("updateUserEmail")
-    public String updateEmail(@ModelAttribute("userFromSession") User userFromSession,
+    public String updateEmail(@ModelAttribute("userFromSession") @Valid User userFromSession,
                               BindingResult bindingResult,
                               @RequestParam String email) {
         userValidator.emailValidate(userFromSession, bindingResult);
+        if(bindingResult.hasErrors()){
+            return "redirect:/user/profile";
+        }
         userFromSession.setEmail(email);
-//        if(bindingResult.hasErrors()){
-//            return "redirect:/user/profile";
-//        }
         userService.userSave(userFromSession);
         SecurityContextHolder.clearContext();
         return "redirect:/user/profile";
     }
 
     @PostMapping("updateUserPassword")
-    public String updatePassword(@ModelAttribute("userFromSession") User userFromSession,
+    public String updatePassword(@ModelAttribute("userFromSession") @Valid User userFromSession,
                                  BindingResult bindingResult,
                                  @RequestParam String password) {
-        userValidator.passwordValidate(userFromSession, bindingResult);
         userFromSession.setPassword(password);
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "redirect:/user/profile";
         }
         userService.userSave(userFromSession);
@@ -69,8 +70,7 @@ public class UserController {
     }
 
     @GetMapping("deleteUser")
-    public String userEditForm(@ModelAttribute("userFromSession") User userFromSession,
-                               BindingResult bindingResult) {
+    public String userEditForm(@ModelAttribute("userFromSession") @Valid User userFromSession){
         userFromSession.setActive(false);
         userService.userSave(userFromSession);
         SecurityContextHolder.clearContext();
@@ -78,7 +78,7 @@ public class UserController {
     }
 
     @ModelAttribute("userFromSession")
-    public User getUserFromSession(){
+    public User getUserFromSession() {
         return (User) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();

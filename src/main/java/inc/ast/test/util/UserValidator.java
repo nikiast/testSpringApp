@@ -28,34 +28,36 @@ public class UserValidator implements Validator {
         User user = (User) target;
         usernameValidate(user, errors);
         emailValidate(user, errors);
-        passwordValidate(user, errors);
+//        passwordValidate(user, errors);
     }
 
     public void usernameValidate(User user, Errors errors) {
-        if (userRepo.findByUsername(user.getUsername()).isPresent() || user.getUsername().equals("")) {
-            errors.rejectValue("username", "", "This username is exist or not valid");
+        if (userRepo.findByUsername(user.getUsername()).isPresent()) {
+            errors.rejectValue("username", "", "This username is exist");
         }
     }
+
     public void emailValidate(User user, Errors errors) {
-        if(!emailRegExpValidate(user.getEmail())){
-            errors.rejectValue("email", "", "This email is not valid");
-        }
-    }
-    public void passwordValidate(User user, Errors errors) {
-        if (!passwordRegExpValidate(user.getPassword())){
-            errors.rejectValue("password", "", "This password is not valid");
+        if (userRepo.findByEmail(user.getEmail()).isPresent()) {
+            errors.rejectValue("email", "", "This email is exist");
         }
     }
 
-    public boolean usernameValidate(String username) {
-        return userRepo.findByUsername(username).isEmpty() && !username.equals("");
-    }
+//    public void passwordValidate(User user, Errors errors) {
+//        if (!passwordRegExpValidate(user.getPassword())) {
+//            errors.rejectValue("password", "", "This password is not valid");
+//        }
+//    }
+//
+//    public boolean usernameValidate(String username) {
+//        return userRepo.findByUsername(username).isEmpty() && !username.equals("");
+//    }
 
-    private boolean passwordRegExpValidate(String password){
+    private boolean passwordRegExpValidate(String password) {
         return Pattern.matches(PASSWORD_VALID, password);
     }
 
-    private boolean emailRegExpValidate(String email){
+    private boolean emailRegExpValidate(String email) {
         return Pattern.matches(EMAIL_VALID, email);
     }
 }

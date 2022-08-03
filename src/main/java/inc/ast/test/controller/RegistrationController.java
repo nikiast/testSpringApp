@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping("/registration")
 public class RegistrationController {
@@ -27,7 +29,7 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String createUser(@ModelAttribute("user") User user,
+    public String createUser(@ModelAttribute("user") @Valid User user,
                              BindingResult bindingResult) {
         user.setRole(Role.USER);
         user.setRegistrationTime(userService.formatDateTimeNow());

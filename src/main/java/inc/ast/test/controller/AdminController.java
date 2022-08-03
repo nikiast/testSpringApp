@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
@@ -56,20 +57,18 @@ public class AdminController {
     }
 
     @PostMapping("updateUsername/{id}")
-    public String updateUsername(@ModelAttribute("user") User user, BindingResult bindingResult) {
-        userValidator.usernameValidate(user,bindingResult);
-        if (bindingResult.hasErrors()){
+    public String updateUsername(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
+        userValidator.usernameValidate(user, bindingResult);
+        if (bindingResult.hasErrors()) {
             return "redirect:/admin/{id}";
         }
         userService.userSave(user);
         return "redirect:/admin/{id}";
     }
 
-
     @PostMapping("updatePassword/{id}")
-    public String updatePassword(@ModelAttribute("user") User user, BindingResult bindingResult) {
-        userValidator.passwordValidate(user,bindingResult);
-        if (bindingResult.hasErrors()){
+    public String updatePassword(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return "redirect:/admin/{id}";
         }
         userService.userSave(user);
@@ -88,21 +87,21 @@ public class AdminController {
     }
 
     @GetMapping("lockUser/{id}")
-    public String lockUser(@ModelAttribute("user") User user) {
+    public String lockUser(@ModelAttribute("user") @Valid User user) {
         user.setActive(false);
         userService.userSave(user);
         return "redirect:/admin/{id}";
     }
 
     @GetMapping("unlockUser/{id}")
-    public String unlockUser(@ModelAttribute("user") User user) {
+    public String unlockUser(@ModelAttribute("user") @Valid User user) {
         user.setActive(true);
         userService.userSave(user);
         return "redirect:/admin/{id}";
     }
 
     @ModelAttribute("user")
-    public User getUserFromSession(){
+    public User getUserFrom() {
         return user;
     }
 }

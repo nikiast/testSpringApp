@@ -28,7 +28,7 @@ public class ProductController {
 
     @PostMapping("/add")
     public String add(@AuthenticationPrincipal User user,
-                      @ModelAttribute ("product") Product product,
+                      @ModelAttribute("product") Product product,
                       @RequestParam(name = "price") Integer price,
                       @RequestParam(name = "role") String role) {
         product.setCreatedTime(productService.formatDateTimeNow());
