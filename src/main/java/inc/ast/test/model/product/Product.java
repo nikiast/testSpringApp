@@ -20,6 +20,8 @@ public class Product implements Serializable {
     @OneToMany(mappedBy = "productId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Bet> prices;
 
+    private String filename;
+
     protected Product() {
     }
 
@@ -74,6 +76,14 @@ public class Product implements Serializable {
 
     public void setCreatedTime(String createdTime) {
         this.createdTime = createdTime;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
     @Override

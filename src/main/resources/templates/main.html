@@ -12,6 +12,7 @@
     <table class="table table-hover" style="width:50%">
         <thead class="table-light">
         <tr>
+            <th scope="col">Picture</th>
             <th scope="col">Type</th>
             <th scope="col">Name</th>
             <th scope="col">Price</th>
@@ -23,6 +24,7 @@
             <div>
                 <tbody>
                 <tr>
+                    <th><img src="/img/${product.filename}"></th>
                     <th><span th:text="${entry.key.typeOfProducts}"></span></th>
                     <th><span th:text="${entry.key.name}"></span></th>
                     <th><span th:text="${entry.value}"></span></th>
