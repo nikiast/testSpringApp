@@ -4,19 +4,27 @@ import inc.ast.test.model.product.Bet;
 import inc.ast.test.model.product.Product;
 import inc.ast.test.repository.BetRepo;
 import inc.ast.test.repository.ProductRepo;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class ProductService {
     private final BetRepo betRepo;
     private final ProductRepo productRepo;
+
+    @Value("${upload.path}")
+    private String uploadPath;
 
     public ProductService(BetRepo betRepo, ProductRepo productRepo) {
         this.betRepo = betRepo;
@@ -61,4 +69,44 @@ public class ProductService {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         return registrationTime.format(format);
     }
+
+
+    public boolean addImage(MultipartFile file, Product product) {
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            File uploadDir = new File(uploadPath);
+
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFilename = uuidFile + "-" + file.getOriginalFilename();
+            try {
+                file.transferTo(new File(uploadPath + "/" + resultFilename));
+                product.setFilename(resultFilename);
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
