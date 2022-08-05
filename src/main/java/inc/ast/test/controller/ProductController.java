@@ -30,6 +30,7 @@ public class ProductController {
     @PostMapping("/add")
     public String add(@AuthenticationPrincipal User user,
                       @ModelAttribute("product") Product product,
+                      @ModelAttribute("bet") Bet bet,
                       @RequestParam(name = "price") Integer price,
                       @RequestParam(name = "role") String role,
                       @RequestParam("file") MultipartFile file) {
@@ -40,7 +41,7 @@ public class ProductController {
             case "TABLET" -> product.setTypeOfProducts(TypeOfProduct.TABLET);
         }
         productService.addImage(file, product);
-        Bet bet = new Bet(user, product, price);
+        productService.createBet(bet, user, product);
         productService.productSave(product);
         productService.betSave(bet);
         return "redirect:/";
