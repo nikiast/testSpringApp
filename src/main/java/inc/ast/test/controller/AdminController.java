@@ -79,12 +79,8 @@ public class AdminController {
     }
 
     @PostMapping("updateRole/{id}")
-    public String updateRole(@PathVariable("id") User user, @RequestParam String role) {
-        switch (role) {
-            case "USER" -> user.setRole(Role.USER);
-            case "PROVIDER" -> user.setRole(Role.PROVIDER);
-            case "ADMIN" -> user.setRole(Role.ADMIN);
-        }
+    public String updateRole(@ModelAttribute("editingUserByAdmin") @Valid User user, @RequestParam String role) {
+        userService.selectRole(user,role);
         userService.saveUser(user);
         return "redirect:/admin/{id}";
     }

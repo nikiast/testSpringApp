@@ -30,10 +30,6 @@ public class UserService {
         return user;
     }
 
-    public void encodePassword(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-    }
-
     @Transactional
     public void saveUser(User user) {
         userRepo.save(user);
@@ -45,6 +41,19 @@ public class UserService {
 
     public List<User> findAllUser() {
         return userRepo.findAll();
+    }
+
+    public User selectRole(User user, String role){
+        switch (role) {
+            case "USER" -> user.setRole(Role.USER);
+            case "PROVIDER" -> user.setRole(Role.PROVIDER);
+            case "ADMIN" -> user.setRole(Role.ADMIN);
+        }
+        return user;
+    }
+
+    public void encodePassword(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
 
     public String formatDateTimeNow() {

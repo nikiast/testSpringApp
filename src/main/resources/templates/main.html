@@ -24,7 +24,7 @@
             <div>
                 <tbody>
                 <tr>
-                    <th><img src="/img/${product.filename}"></th>
+                    <th><img th:src="@{/img/{filename}(filename=${entry.key.filename})}"></th>
                     <th><span th:text="${entry.key.typeOfProducts}"></span></th>
                     <th><span th:text="${entry.key.name}"></span></th>
                     <th><span th:text="${entry.value}"></span></th>

@@ -61,13 +61,12 @@ public class ProductService {
         betRepo.save(bet);
     }
 
-    public void createBet(Bet bet, User user, Product product){
-        bet.setUserId(user);
-        bet.setProductId(product);
-    }
-
     public List<Bet> findByProductId(Product product) {
         return betRepo.findByProductId(product);
+    }
+
+    public List<Product> findAllProduct(){
+        return productRepo.findAll();
     }
 
     public String formatDateTimeNow() {
@@ -76,10 +75,15 @@ public class ProductService {
         return registrationTime.format(format);
     }
 
+    public void createBet(Bet bet, User user, Product product){
+        bet.setUserId(user);
+        bet.setProductId(product);
+    }
 
     public boolean addImage(MultipartFile file, Product product) {
         if (file != null && !file.getOriginalFilename().isEmpty()) {
             File uploadDir = new File(uploadPath);
+
             if (!uploadDir.exists()) {
                 uploadDir.mkdir();
             }
@@ -99,19 +103,3 @@ public class ProductService {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
