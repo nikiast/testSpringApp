@@ -91,12 +91,18 @@ public class Product implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(getId(), product.getId()) && Objects.equals(getName(), product.getName()) && Objects.equals(getDescription(), product.getDescription()) && Objects.equals(getCreatedTime(), product.getCreatedTime()) && getTypeOfProducts() == product.getTypeOfProducts() && Objects.equals(getPrices(), product.getPrices());
+        return Objects.equals(getId(), product.getId())
+                && Objects.equals(getName(), product.getName())
+                && Objects.equals(getDescription(), product.getDescription())
+                && Objects.equals(getCreatedTime(), product.getCreatedTime())
+                && getTypeOfProducts() == product.getTypeOfProducts()
+                && Objects.equals(getPrices(), product.getPrices())
+                && Objects.equals(getFilename(), product.getFilename());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getDescription(), getCreatedTime(), getTypeOfProducts(), getPrices());
+        return Objects.hash(getId(), getName(), getDescription(), getCreatedTime(), getTypeOfProducts(), getPrices(), getFilename());
     }
 
     @Override
@@ -105,9 +111,10 @@ public class Product implements Serializable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", createTime='" + createdTime + '\'' +
+                ", createdTime='" + createdTime + '\'' +
                 ", typeOfProducts=" + typeOfProducts +
                 ", prices=" + prices +
+                ", filename='" + filename + '\'' +
                 '}';
     }
 }

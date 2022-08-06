@@ -2,7 +2,6 @@ package inc.ast.test.controller;
 
 import inc.ast.test.model.product.Bet;
 import inc.ast.test.model.product.Product;
-import inc.ast.test.model.product.TypeOfProduct;
 import inc.ast.test.model.user.User;
 import inc.ast.test.service.BetService;
 import inc.ast.test.service.ImageService;
@@ -37,17 +36,10 @@ public class ProductController {
     public String add(@AuthenticationPrincipal User user,
                       @ModelAttribute("product") Product product,
                       @ModelAttribute("bet") Bet bet,
-                      @RequestParam(name = "price") Integer price,
                       @RequestParam(name = "role") String role,
                       @RequestParam("file") MultipartFile file) {
-        product.setCreatedTime(productService.formatDateTimeNow());
-        switch (role) {
-            case "PC" -> product.setTypeOfProducts(TypeOfProduct.PC);
-            case "PHONE" -> product.setTypeOfProducts(TypeOfProduct.PHONE);
-            case "TABLET" -> product.setTypeOfProducts(TypeOfProduct.TABLET);
-        }
-        imageService.addImage(file, product);
-        productService.createBet(bet, user, product);
+        productService.createProduct(product, role, file);
+        betService.createBet(bet, user, product);
         productService.productSave(product);
         betService.betSave(bet);
         return "redirect:/";

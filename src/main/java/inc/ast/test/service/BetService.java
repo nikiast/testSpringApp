@@ -2,6 +2,7 @@ package inc.ast.test.service;
 
 import inc.ast.test.model.product.Bet;
 import inc.ast.test.model.product.Product;
+import inc.ast.test.model.user.User;
 import inc.ast.test.repository.BetRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,11 @@ public class BetService {
     @Transactional
     public void betSave(Bet bet) {
         betRepo.save(bet);
+    }
+
+    public void createBet(Bet bet, User user, Product product) {
+        bet.setUserId(user);
+        bet.setProductId(product);
     }
 
     public List<Bet> findByProductId(Product product) {

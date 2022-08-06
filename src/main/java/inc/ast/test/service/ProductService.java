@@ -1,21 +1,20 @@
 package inc.ast.test.service;
 
-import inc.ast.test.model.product.Bet;
 import inc.ast.test.model.product.Product;
-import inc.ast.test.model.user.User;
+import inc.ast.test.model.product.TypeOfProduct;
 import inc.ast.test.repository.ProductRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ProductService {
     private final ProductRepo productRepo;
+    private final ImageService imageService;
 
-    public ProductService(ProductRepo productRepo) {
+    public ProductService(ProductRepo productRepo, ImageService imageService) {
         this.productRepo = productRepo;
+        this.imageService = imageService;
     }
 
     @Transactional
@@ -23,12 +22,18 @@ public class ProductService {
         productRepo.save(product);
     }
 
-    public String formatDateTimeNow() {
-        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd.MM.yyyy"));
+
+    public void selectProductRole(Product product, String role){
+        switch (role) {
+            case "PC" -> product.setTypeOfProducts(TypeOfProduct.PC);
+            case "PHONE" -> product.setTypeOfProducts(TypeOfProduct.PHONE);
+            case "TABLET" -> product.setTypeOfProducts(TypeOfProduct.TABLET);
+        }
     }
 
-    public void createBet(Bet bet, User user, Product product) {
-        bet.setUserId(user);
-        bet.setProductId(product);
+    public void createProduct(Product product, String role, MultipartFile file){
+        selectProductRole(product,role);
+        imageService.addImage(file, product);
+        product.setCreatedTime(UserService.formatDateTimeNow());
     }
 }

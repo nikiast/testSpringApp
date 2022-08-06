@@ -43,7 +43,7 @@ public class UserService {
         return userRepo.findAll();
     }
 
-    public User selectRole(User user, String role){
+    public User selectRole(User user, String role) {
         switch (role) {
             case "USER" -> user.setRole(Role.USER);
             case "PROVIDER" -> user.setRole(Role.PROVIDER);
@@ -56,9 +56,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
 
-    public String formatDateTimeNow() {
-        LocalDateTime registrationTime = LocalDateTime.now();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-        return registrationTime.format(format);
+    public static String formatDateTimeNow() {
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
     }
 }
