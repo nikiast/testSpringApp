@@ -65,14 +65,8 @@ public class ProductService {
         return betRepo.findByProductId(product);
     }
 
-    public List<Product> findAllProduct(){
-        return productRepo.findAll();
-    }
-
     public String formatDateTimeNow() {
-        LocalDateTime registrationTime = LocalDateTime.now();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-        return registrationTime.format(format);
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd.MM.yyyy"));
     }
 
     public void createBet(Bet bet, User user, Product product){
