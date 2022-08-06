@@ -24,7 +24,8 @@
             <div>
                 <tbody>
                 <tr>
-                    <th><img th:src="@{uploads/{filename}(filename=${entry.key.filename})}"></th>
+                    <th><img th:src="@{uploads/{filename}(filename=${entry.key.filename})}"
+                             style="max-height: 10%; max-width: 10%"></th>
                     <th><span th:text="${entry.key.typeOfProducts}"></span></th>
                     <th><span th:text="${entry.key.name}"></span></th>
                     <th><span th:text="${entry.value}"></span></th>

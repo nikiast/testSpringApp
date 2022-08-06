@@ -4,6 +4,8 @@ import inc.ast.test.model.product.Bet;
 import inc.ast.test.model.product.Product;
 import inc.ast.test.model.product.TypeOfProduct;
 import inc.ast.test.model.user.User;
+import inc.ast.test.service.BetService;
+import inc.ast.test.service.ImageService;
 import inc.ast.test.service.ProductService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -17,9 +19,13 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController {
     private final ProductService productService;
+    private final BetService betService;
+    private final ImageService imageService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, BetService betService, ImageService imageService) {
         this.productService = productService;
+        this.betService = betService;
+        this.imageService = imageService;
     }
 
     @GetMapping("/add")
@@ -40,17 +46,17 @@ public class ProductController {
             case "PHONE" -> product.setTypeOfProducts(TypeOfProduct.PHONE);
             case "TABLET" -> product.setTypeOfProducts(TypeOfProduct.TABLET);
         }
-        productService.addImage(file, product);
+        imageService.addImage(file, product);
         productService.createBet(bet, user, product);
         productService.productSave(product);
-        productService.betSave(bet);
+        betService.betSave(bet);
         return "redirect:/";
     }
 
     @GetMapping("{id}")
     public String priceForm(@PathVariable("id") Product product,
                             Model model) {
-        List<Bet> betList = productService.findByProductId(product);
+        List<Bet> betList = betService.findByProductId(product);
         model.addAttribute("betList", betList);
         model.addAttribute("product", product);
         return "product/priceForm";
@@ -61,7 +67,7 @@ public class ProductController {
                                   @PathVariable("id") Product product,
                                   @RequestParam Integer price) {
         Bet bet = new Bet(userFromSession, product, price);
-        productService.betSave(bet);
+        betService.betSave(bet);
         return "redirect:/product/{id}";
     }
 }
